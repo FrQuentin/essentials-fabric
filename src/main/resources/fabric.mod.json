@@ -1,0 +1,34 @@
+{
+	"schemaVersion": 1,
+	"id": "essentials",
+	"version": "${version}",
+	"name": "Essentials",
+	"description": "Essentials adds practical features that enhance the player experience and simplify daily life in the game, making the adventure smoother and more enjoyable.",
+	"authors": [
+		"Quentin Fouilleul"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/frquentin/essentials-fabric"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/essentials/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"fr.quentin.essentials.Essentials"
+		],
+		"client": [
+			"fr.quentin.essentials.EssentialsClient"
+		]
+	},
+	"mixins": [
+		"essentials.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.16.10",
+		"minecraft": "~1.21.4",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}
