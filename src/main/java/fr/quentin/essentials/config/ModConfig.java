@@ -2,6 +2,7 @@ package fr.quentin.essentials.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 import fr.quentin.essentials.EssentialsClient;
 import net.fabricmc.loader.api.FabricLoader;
 
@@ -29,22 +30,27 @@ public class ModConfig {
             } else {
                 save();
             }
-        } catch (IOException e) {
-            EssentialsClient.LOGGER.error("Error loading Essentials configuration: {}", e.getMessage());
+        } catch (JsonSyntaxException syntaxException) {
+            EssentialsClient.LOGGER.error("Invalid JSON format in config file, resetting to default");
+            configData = new ConfigData();
+            save();
+        } catch (IOException exception) {
+            EssentialsClient.LOGGER.error("Error loading Essentials configuration: {}", exception.getMessage());
         }
     }
 
     public static void save() {
         try {
-            if (!CONFIG_FILE.getParentFile().exists()) {
-                CONFIG_FILE.getParentFile().mkdirs();
+            File parentDir = CONFIG_FILE.getParentFile();
+            if (!parentDir.exists() && !parentDir.mkdirs()) {
+                EssentialsClient.LOGGER.error("Failed to create config directory: {}", parentDir.getAbsolutePath());
+                return;
             }
-
             try (FileWriter writer = new FileWriter(CONFIG_FILE)) {
                 GSON.toJson(configData, writer);
             }
-        } catch (IOException e) {
-            EssentialsClient.LOGGER.error("Error saving Essentials configuration: {}", e.getMessage());
+        } catch (IOException exception) {
+            EssentialsClient.LOGGER.error("Error saving Essentials configuration: {}", exception.getMessage());
         }
     }
 

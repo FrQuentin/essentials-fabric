@@ -44,14 +44,14 @@ public class EssentialsClient implements ClientModInitializer {
 
                     if (MinecraftClient.getInstance().player != null) {
                         MinecraftClient.getInstance().player.sendMessage(
-                                Text.translatable("gamma.on"), true);
+                                Text.translatable("gamma.toggled_on"), true);
                     }
                 } else {
                     ModCommand.setGamma(ModCommand.GammaSettings.GAMMA_OFF);
 
                     if (MinecraftClient.getInstance().player != null) {
                         MinecraftClient.getInstance().player.sendMessage(
-                                Text.translatable("gamma.off"), true);
+                                Text.translatable("gamma.toggled_off"), true);
                     }
                 }
             }
@@ -60,13 +60,13 @@ public class EssentialsClient implements ClientModInitializer {
 
     private void applyGammaFromConfig() {
         try {
-            if (ModConfig.isGammaEnabled()) {
-                ModCommand.setGamma(ModCommand.GammaSettings.GAMMA_ON);
-            } else {
-                ModCommand.setGamma(ModCommand.GammaSettings.GAMMA_OFF);
-            }
-        } catch (Exception e) {
-            LOGGER.error("Failed to apply gamma from config", e);
+            double gammaValue = ModConfig.getGammaValue();
+            boolean gammaEnabled = ModConfig.isGammaEnabled();
+            LOGGER.info("Applying gamma from config: Enabled={}, Value={}", gammaEnabled, gammaValue);
+            ModCommand.setGamma(gammaValue);
+            ModConfig.setGammaEnabled(gammaValue > ModCommand.GammaSettings.GAMMA_OFF);
+        } catch (Exception exception) {
+            LOGGER.error("Failed to apply gamma from config", exception);
         }
     }
 }
