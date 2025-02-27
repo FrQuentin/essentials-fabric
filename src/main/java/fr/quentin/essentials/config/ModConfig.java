@@ -71,4 +71,8 @@ public class ModConfig {
         configData.gammaValue = value;
         save();
     }
+
+    public static ConfigData getConfigData() {
+        return configData;
+    }
 }

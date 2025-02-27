@@ -6,9 +6,18 @@ import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 
 public class ModKeyBinding {
+    public static KeyBinding configurationKey;
     public static KeyBinding gammaKey;
 
     public static void register() {
+        configurationKey = KeyBindingHelper.registerKeyBinding(
+                new KeyBinding(
+                        "key.essentials.config",
+                        InputUtil.Type.KEYSYM,
+                        GLFW.GLFW_KEY_H,
+                        "key.categories.essentials"
+                )
+        );
         gammaKey = KeyBindingHelper.registerKeyBinding(
                 new KeyBinding(
                         "key.gamma.toggle",

@@ -125,6 +125,7 @@ public class ModCommand {
             options.getGamma().setValue(value);
             options.write();
             ModConfig.setGammaValue(value);
+            ModConfig.setGammaEnabled(value > GammaSettings.GAMMA_OFF);
         } catch (Exception exception) {
             EssentialsClient.LOGGER.error("An error occurred while setting the gamma value", exception);
         }

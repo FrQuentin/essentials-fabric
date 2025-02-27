@@ -3,6 +3,7 @@ package fr.quentin.essentials;
 import fr.quentin.essentials.command.ModCommand;
 import fr.quentin.essentials.config.ModConfig;
 import fr.quentin.essentials.option.ModKeyBinding;
+import fr.quentin.essentials.screen.EssentialsOptionsScreen;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -36,23 +37,30 @@ public class EssentialsClient implements ClientModInitializer {
     private void registerKeyInputs() {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (ModKeyBinding.gammaKey.wasPressed()) {
-                boolean newState = !ModConfig.isGammaEnabled();
+                double currentGammaValue = ModConfig.getGammaValue();
+
+                boolean newState;
+                newState = !(currentGammaValue > ModCommand.GammaSettings.GAMMA_OFF);
+
                 ModConfig.setGammaEnabled(newState);
 
                 if (newState) {
                     ModCommand.setGamma(ModCommand.GammaSettings.GAMMA_ON);
-
                     if (MinecraftClient.getInstance().player != null) {
                         MinecraftClient.getInstance().player.sendMessage(
                                 Text.translatable("gamma.toggled_on"), true);
                     }
                 } else {
                     ModCommand.setGamma(ModCommand.GammaSettings.GAMMA_OFF);
-
                     if (MinecraftClient.getInstance().player != null) {
                         MinecraftClient.getInstance().player.sendMessage(
                                 Text.translatable("gamma.toggled_off"), true);
                     }
+                }
+            }
+            if (ModKeyBinding.configurationKey.wasPressed()) {
+                if (client != null && client.currentScreen == null) {
+                    client.setScreen(new EssentialsOptionsScreen(null, client.options));
                 }
             }
         });
@@ -63,8 +71,12 @@ public class EssentialsClient implements ClientModInitializer {
             double gammaValue = ModConfig.getGammaValue();
             boolean gammaEnabled = ModConfig.isGammaEnabled();
             LOGGER.info("Applying gamma from config: Enabled={}, Value={}", gammaEnabled, gammaValue);
-            ModCommand.setGamma(gammaValue);
-            ModConfig.setGammaEnabled(gammaValue > ModCommand.GammaSettings.GAMMA_OFF);
+
+            if (gammaEnabled) {
+                ModCommand.setGamma(gammaValue);
+            } else {
+                ModCommand.setGamma(ModCommand.GammaSettings.GAMMA_OFF);
+            }
         } catch (Exception exception) {
             LOGGER.error("Failed to apply gamma from config", exception);
         }
