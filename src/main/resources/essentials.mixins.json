@@ -3,7 +3,7 @@
 	"package": "fr.quentin.essentials.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"EssentialsMixin"
+		"SimpleOptionMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

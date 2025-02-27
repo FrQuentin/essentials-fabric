@@ -1,0 +1,13 @@
+{
+  "gamma.on": "Gamma enabled",
+  "gamma.off": "Gamma disabled",
+  "gamma.already_on": "Gamma is already enabled",
+  "gamma.already_off": "Gamma is already disabled",
+  "gamma.current": "Current gamma: %s",
+  "gamma.value": "Gamma value set to: %s",
+  "gamma.usage": "Usage: /gamma value <number>",
+  "enabled": "enabled",
+  "disabled": "disabled",
+  "key.categories.essentials": "Essentials",
+  "key.gamma.toggle": "Toggle Gamma"
+}
