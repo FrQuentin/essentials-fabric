@@ -32,11 +32,9 @@ public class EssentialsOptionsScreen extends GameOptionsScreen {
     }
 
     private SimpleOption<?>[] getOptions() {
-        final int SCALE_FACTOR = 100;
-
         return new SimpleOption[]{
                 new SimpleOption<>(
-                        "gamma.option.enabled",
+                        "gamma.option.toggle",
                         SimpleOption.emptyTooltip(),
                         (text, value) -> value ? Text.translatable("gamma.button.on") : Text.translatable("gamma.button.off"),
                         SimpleOption.BOOLEAN,
@@ -49,21 +47,6 @@ public class EssentialsOptionsScreen extends GameOptionsScreen {
                             } else {
                                 ModCommand.setGamma(ModCommand.GammaSettings.GAMMA_OFF);
                             }
-                        }
-                ),
-                new SimpleOption<>(
-                        "gamma.option.value",
-                        SimpleOption.emptyTooltip(),
-                        (text, value) -> Text.literal(String.format("%.2f", value / (double) SCALE_FACTOR)),
-                        new SimpleOption.ValidatingIntSliderCallbacks(
-                                (int) (ModCommand.GammaSettings.GAMMA_MIN * SCALE_FACTOR),
-                                (int) (ModCommand.GammaSettings.GAMMA_MAX * SCALE_FACTOR)
-                        ),
-                        (int) (config.gammaValue * SCALE_FACTOR),
-                        value -> {
-                            config.gammaValue = value / (double) SCALE_FACTOR;
-                            ModConfig.save();
-                            ModCommand.setGamma(config.gammaValue);
                         }
                 )
         };
