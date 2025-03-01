@@ -15,6 +15,25 @@ import net.minecraft.util.Formatting;
 public class ModCommand {
     public static void registerAll(CommandDispatcher<FabricClientCommandSource> dispatcher) {
         registerGammaCommand(dispatcher);
+        registerCoordinatesCommand(dispatcher);
+    }
+
+    public static void registerCoordinatesCommand(CommandDispatcher<FabricClientCommandSource> dispatcher) {
+        dispatcher.register(
+                ClientCommandManager.literal("coordinates")
+                        .then(ClientCommandManager.literal("toggle")
+                                .executes(context -> {
+                                    boolean newState = ModConfig.isCoordinatesEnabled();
+                                    ModConfig.setCoordinatesEnabled(newState);
+
+                                    if (newState) {
+                                        context.getSource().sendFeedback(Text.translatable("coordinates.toggled_on"));
+                                    } else {
+                                        context.getSource().sendFeedback(Text.translatable("coordinates.toggled_off"));
+                                    }
+                                    return 1;
+                                }))
+        );
     }
 
     private static void registerGammaCommand(CommandDispatcher<FabricClientCommandSource> dispatcher) {

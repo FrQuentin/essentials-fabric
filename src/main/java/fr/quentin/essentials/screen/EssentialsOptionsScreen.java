@@ -7,6 +7,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.GameOptionsScreen;
+import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.option.SimpleOption;
 import net.minecraft.text.Text;
@@ -35,7 +36,7 @@ public class EssentialsOptionsScreen extends GameOptionsScreen {
         return new SimpleOption[]{
                 new SimpleOption<>(
                         "gamma.option.toggle",
-                        SimpleOption.emptyTooltip(),
+                        value -> Tooltip.of(Text.translatable("gamma.tooltip")),
                         (text, value) -> value ? Text.translatable("gamma.button.on") : Text.translatable("gamma.button.off"),
                         SimpleOption.BOOLEAN,
                         config.gammaEnabled,
@@ -47,6 +48,17 @@ public class EssentialsOptionsScreen extends GameOptionsScreen {
                             } else {
                                 ModCommand.setGamma(ModCommand.GammaSettings.GAMMA_OFF);
                             }
+                        }
+                ),
+                new SimpleOption<>(
+                        "coordinates.option.toggle",
+                        value -> Tooltip.of(Text.translatable("coordinates.tooltip")),
+                        (text, value) -> value ? Text.translatable("coordinates.button.on") : Text.translatable("coordinates.button.off"),
+                        SimpleOption.BOOLEAN,
+                        config.coordinatesEnabled,
+                        value -> {
+                            config.coordinatesEnabled = value;
+                            ModConfig.save();
                         }
                 )
         };

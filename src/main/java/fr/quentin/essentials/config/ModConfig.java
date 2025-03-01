@@ -19,6 +19,7 @@ public class ModConfig {
     public static class ConfigData {
         public boolean gammaEnabled = false;
         public double gammaValue = 1.0;
+        public boolean coordinatesEnabled = false;
     }
 
     public static void load() {
@@ -74,5 +75,14 @@ public class ModConfig {
 
     public static ConfigData getConfigData() {
         return configData;
+    }
+
+    public static boolean isCoordinatesEnabled() {
+        return !configData.coordinatesEnabled;
+    }
+
+    public static void setCoordinatesEnabled(boolean enabled) {
+        configData.coordinatesEnabled = enabled;
+        save();
     }
 }

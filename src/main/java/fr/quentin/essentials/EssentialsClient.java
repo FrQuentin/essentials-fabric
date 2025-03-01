@@ -3,13 +3,17 @@ package fr.quentin.essentials;
 import fr.quentin.essentials.command.ModCommand;
 import fr.quentin.essentials.config.ModConfig;
 import fr.quentin.essentials.option.ModKeyBinding;
+import fr.quentin.essentials.screen.CoordinatesOverlay;
 import fr.quentin.essentials.screen.EssentialsOptionsScreen;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
+import net.fabricmc.fabric.api.client.rendering.v1.HudLayerRegistrationCallback;
+import net.fabricmc.fabric.api.client.rendering.v1.IdentifiedLayer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,6 +29,14 @@ public class EssentialsClient implements ClientModInitializer {
 
         ClientLifecycleEvents.CLIENT_STARTED.register(client -> {
             applyGammaFromConfig();
+        });
+
+        HudLayerRegistrationCallback.EVENT.register(layeredDrawer -> {
+            layeredDrawer.attachLayerBefore(
+                    IdentifiedLayer.CHAT,
+                    Identifier.of(Essentials.MOD_ID, "coordinates_overlay"),
+                    (context, tickCounter) -> CoordinatesOverlay.render(context)
+            );
         });
     }
 

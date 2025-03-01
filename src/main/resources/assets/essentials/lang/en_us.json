@@ -14,7 +14,14 @@
   "gamma.usage_decrease": "Usage: /gamma decrease <value>",
   "gamma.max_limit_reached": "You have reached the maximum gamma limit (10,000). Cannot increase further",
   "gamma.min_limit_reached": "You have reached the minimum gamma limit (-10,000). Cannot decrease further",
+  "coordinates.toggled_on": "Coordinates enabled",
+  "coordinates.toggled_off": "Coordinates disabled",
+  "coordinates.option.toggle": "Coordinates",
+  "coordinates.button.on": "ON",
+  "coordinates.button.off": "OFF",
   "key.categories.essentials": "Essentials",
   "key.essentials.config": "Configuration Screen",
-  "key.gamma.toggle": "Toggle Gamma"
+  "key.gamma.toggle": "Toggle Gamma",
+  "gamma.tooltip": "Enable or disable gamma adjustment to improve visibility",
+  "coordinates.tooltip": "Enable or disable the display of player coordinates"
 }
