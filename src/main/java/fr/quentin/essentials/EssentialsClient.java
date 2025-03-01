@@ -75,6 +75,20 @@ public class EssentialsClient implements ClientModInitializer {
                     client.setScreen(new EssentialsOptionsScreen(null, client.options));
                 }
             }
+            if (ModKeyBinding.coordinatesKey.wasPressed()) {
+                boolean newState = ModConfig.isCoordinatesEnabled();
+                ModConfig.setCoordinatesEnabled(newState);
+
+                if (MinecraftClient.getInstance().player != null) {
+                    if (newState) {
+                        MinecraftClient.getInstance().player.sendMessage(
+                                Text.translatable("coordinates.toggled_on"), true);
+                    } else {
+                        MinecraftClient.getInstance().player.sendMessage(
+                                Text.translatable("coordinates.toggled_off"), true);
+                    }
+                }
+            }
         });
     }
 

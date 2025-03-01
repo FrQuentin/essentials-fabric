@@ -22,18 +22,20 @@ public class ModCommand {
         dispatcher.register(
                 ClientCommandManager.literal("coordinates")
                         .then(ClientCommandManager.literal("toggle")
-                                .executes(context -> {
-                                    boolean newState = ModConfig.isCoordinatesEnabled();
-                                    ModConfig.setCoordinatesEnabled(newState);
-
-                                    if (newState) {
-                                        context.getSource().sendFeedback(Text.translatable("coordinates.toggled_on"));
-                                    } else {
-                                        context.getSource().sendFeedback(Text.translatable("coordinates.toggled_off"));
-                                    }
-                                    return 1;
-                                }))
+                                .executes(ModCommand::executeCoordinatesToggle))
         );
+    }
+
+    private static int executeCoordinatesToggle(CommandContext<FabricClientCommandSource> context) {
+        boolean newState = ModConfig.isCoordinatesEnabled();
+        ModConfig.setCoordinatesEnabled(newState);
+
+        if (newState) {
+            context.getSource().sendFeedback(Text.translatable("coordinates.toggled_on"));
+        } else {
+            context.getSource().sendFeedback(Text.translatable("coordinates.toggled_off"));
+        }
+        return 1;
     }
 
     private static void registerGammaCommand(CommandDispatcher<FabricClientCommandSource> dispatcher) {

@@ -22,6 +22,7 @@
   "key.categories.essentials": "Essentials",
   "key.essentials.config": "Configuration Screen",
   "key.gamma.toggle": "Toggle Gamma",
+  "key.coordinates.toggle": "Toggle Coordinates",
   "gamma.tooltip": "Enable or disable gamma adjustment to improve visibility",
   "coordinates.tooltip": "Enable or disable the display of player coordinates"
 }

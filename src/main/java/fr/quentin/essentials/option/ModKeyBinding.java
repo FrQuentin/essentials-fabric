@@ -8,6 +8,7 @@ import org.lwjgl.glfw.GLFW;
 public class ModKeyBinding {
     public static KeyBinding configurationKey;
     public static KeyBinding gammaKey;
+    public static KeyBinding coordinatesKey;
 
     public static void register() {
         configurationKey = KeyBindingHelper.registerKeyBinding(
@@ -23,6 +24,14 @@ public class ModKeyBinding {
                         "key.gamma.toggle",
                         InputUtil.Type.KEYSYM,
                         GLFW.GLFW_KEY_G,
+                        "key.categories.essentials"
+                )
+        );
+        coordinatesKey = KeyBindingHelper.registerKeyBinding(
+                new KeyBinding(
+                        "key.coordinates.toggle",
+                        InputUtil.Type.KEYSYM,
+                        GLFW.GLFW_KEY_UNKNOWN,
                         "key.categories.essentials"
                 )
         );
