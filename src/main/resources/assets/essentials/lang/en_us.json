@@ -8,8 +8,8 @@
   "gamma.current": "The current gamma value is: %.1f",
   "gamma.increased": "Gamma increased by %s, new value: %s",
   "gamma.decreased": "Gamma decreased by %s, new value: %s",
-  "gamma.reset": "Gamma has been reset to the default value (%s).",
-  "gamma.already_reset": "Gamma is already reset to the default value.",
+  "gamma.reset": "Gamma has been reset to the default value (%s)",
+  "gamma.already_reset": "Gamma is already reset to the default value",
   "gamma.usage_increase": "Usage: /gamma increase <value>",
   "gamma.usage_decrease": "Usage: /gamma decrease <value>",
   "gamma.max_limit_reached": "You have reached the maximum gamma limit (10,000). Cannot increase further",
@@ -23,6 +23,8 @@
   "key.essentials.config": "Configuration Screen",
   "key.gamma.toggle": "Toggle Gamma",
   "key.coordinates.toggle": "Toggle Coordinates",
+  "essentials.settings": "Essentials Settings...",
+  "essentials.openFolder": "Open Minecraft Folder",
   "gamma.tooltip": "Enable or disable gamma adjustment to improve visibility",
   "coordinates.tooltip": "Enable or disable the display of player coordinates"
 }

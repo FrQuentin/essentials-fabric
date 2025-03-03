@@ -1,4 +1,4 @@
-package fr.quentin.essentials.screen;
+package fr.quentin.essentials.gui.screen;
 
 import fr.quentin.essentials.config.ModConfig;
 import net.fabricmc.api.EnvType;
