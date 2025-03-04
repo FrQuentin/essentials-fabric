@@ -9,6 +9,7 @@ public class ModKeyBinding {
     public static KeyBinding configurationKey;
     public static KeyBinding gammaKey;
     public static KeyBinding coordinatesKey;
+    public static KeyBinding zoomKey;
 
     public static void register() {
         configurationKey = KeyBindingHelper.registerKeyBinding(
@@ -21,7 +22,7 @@ public class ModKeyBinding {
         );
         gammaKey = KeyBindingHelper.registerKeyBinding(
                 new KeyBinding(
-                        "key.gamma.toggle",
+                        "key.essentials.gamma",
                         InputUtil.Type.KEYSYM,
                         GLFW.GLFW_KEY_G,
                         "key.categories.essentials"
@@ -29,9 +30,17 @@ public class ModKeyBinding {
         );
         coordinatesKey = KeyBindingHelper.registerKeyBinding(
                 new KeyBinding(
-                        "key.coordinates.toggle",
+                        "key.essentials.coordinates",
                         InputUtil.Type.KEYSYM,
                         GLFW.GLFW_KEY_UNKNOWN,
+                        "key.categories.essentials"
+                )
+        );
+        zoomKey = KeyBindingHelper.registerKeyBinding(
+                new KeyBinding(
+                        "key.essentials.zoom",
+                        InputUtil.Type.KEYSYM,
+                        GLFW.GLFW_KEY_C,
                         "key.categories.essentials"
                 )
         );

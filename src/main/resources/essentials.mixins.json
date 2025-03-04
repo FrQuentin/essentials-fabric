@@ -4,7 +4,9 @@
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
 		"SimpleOptionMixin",
-		"TitleScreenMixin"
+		"TitleScreenMixin",
+		"GameRendererMixin",
+		"MouseMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

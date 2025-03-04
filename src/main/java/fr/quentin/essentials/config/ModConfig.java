@@ -20,6 +20,7 @@ public class ModConfig {
         public boolean gammaEnabled = false;
         public double gammaValue = 1.0;
         public boolean coordinatesEnabled = false;
+        public boolean zoomEnabled = false;
     }
 
     public static void load() {
@@ -84,5 +85,13 @@ public class ModConfig {
     public static void setCoordinatesEnabled(boolean enabled) {
         configData.coordinatesEnabled = enabled;
         save();
+    }
+
+    public static boolean isZoomEnabled() {
+        return configData.zoomEnabled;
+    }
+
+    public static void setZoomEnabled(boolean enabled) {
+        configData.zoomEnabled = enabled;
     }
 }

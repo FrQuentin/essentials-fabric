@@ -89,6 +89,11 @@ public class EssentialsClient implements ClientModInitializer {
                     }
                 }
             }
+            if (ModKeyBinding.zoomKey.isPressed()) {
+                ModConfig.setZoomEnabled(true);
+            } else if (ModConfig.isZoomEnabled()) {
+                ModConfig.setZoomEnabled(false);
+            }
         });
     }
 
