@@ -1,7 +1,6 @@
 package fr.quentin.essentials.mixin;
 
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
-import com.llamalad7.mixinextras.sugar.Local;
 import fr.quentin.essentials.option.ModKeyBinding;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.Mouse;

@@ -3,9 +3,9 @@ package fr.quentin.essentials.mixin;
 import fr.quentin.essentials.EssentialsClient;
 import fr.quentin.essentials.gui.screen.EssentialsOptionsScreen;
 import fr.quentin.essentials.gui.screen.TitleScreenButtons;
-import fr.quentin.essentials.gui.widget.ModTextIconButtonWidget;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
+import net.minecraft.client.gui.widget.TextIconButtonWidget;
 import net.minecraft.text.Text;
 import net.minecraft.util.Util;
 import org.spongepowered.asm.mixin.Mixin;
@@ -28,7 +28,7 @@ public abstract class TitleScreenMixin extends Screen {
         int settingsX = this.width - buttonSize - padding;
         int y = padding;
 
-        ModTextIconButtonWidget settingsButton = this.addDrawableChild(TitleScreenButtons.createSettingsButton(
+        TextIconButtonWidget settingsButton = this.addDrawableChild(TitleScreenButtons.createSettingsButton(
                 20,
                 button -> {
                     if (this.client != null) {
@@ -47,7 +47,7 @@ public abstract class TitleScreenMixin extends Screen {
         int folderX = settingsX - buttonSize - padding;
         final Path minecraftDir = this.client.runDirectory.toPath();
 
-        ModTextIconButtonWidget folderButton = this.addDrawableChild(TitleScreenButtons.createFolderButton(
+        TextIconButtonWidget folderButton = this.addDrawableChild(TitleScreenButtons.createFolderButton(
                 20,
                 button -> {
                     if (this.client != null) {
