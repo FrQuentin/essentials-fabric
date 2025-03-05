@@ -10,6 +10,7 @@ public class ModKeyBinding {
     public static KeyBinding gammaKey;
     public static KeyBinding coordinatesKey;
     public static KeyBinding zoomKey;
+    public static KeyBinding shulkerKey;
 
     public static void register() {
         configurationKey = KeyBindingHelper.registerKeyBinding(
@@ -41,6 +42,14 @@ public class ModKeyBinding {
                         "key.essentials.zoom",
                         InputUtil.Type.KEYSYM,
                         GLFW.GLFW_KEY_C,
+                        "key.categories.essentials"
+                )
+        );
+        shulkerKey = KeyBindingHelper.registerKeyBinding(
+                new KeyBinding(
+                        "key.essentials.shulker",
+                        InputUtil.Type.KEYSYM,
+                        GLFW.GLFW_KEY_V,
                         "key.categories.essentials"
                 )
         );

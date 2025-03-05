@@ -6,7 +6,8 @@
 		"SimpleOptionMixin",
 		"TitleScreenMixin",
 		"GameRendererMixin",
-		"MouseMixin"
+		"MouseMixin",
+		"HandledScreenMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

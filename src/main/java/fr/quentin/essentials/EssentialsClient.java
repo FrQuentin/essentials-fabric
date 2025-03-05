@@ -2,9 +2,11 @@ package fr.quentin.essentials;
 
 import fr.quentin.essentials.command.ModCommand;
 import fr.quentin.essentials.config.ModConfig;
+import fr.quentin.essentials.gui.screen.ShulkerPreviewScreen;
 import fr.quentin.essentials.option.ModKeyBinding;
 import fr.quentin.essentials.gui.screen.CoordinatesOverlay;
 import fr.quentin.essentials.gui.screen.EssentialsOptionsScreen;
+import fr.quentin.essentials.utils.ShulkerColorManager;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -12,13 +14,14 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.HudLayerRegistrationCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.IdentifiedLayer;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class EssentialsClient implements ClientModInitializer {
-    public static final Logger LOGGER = LoggerFactory.getLogger("Essentials");
+    public static final Logger LOGGER = LoggerFactory.getLogger(Essentials.MOD_NAME);
 
     @Override
     public void onInitializeClient() {
@@ -93,6 +96,14 @@ public class EssentialsClient implements ClientModInitializer {
                 ModConfig.setZoomEnabled(true);
             } else if (ModConfig.isZoomEnabled()) {
                 ModConfig.setZoomEnabled(false);
+            }
+            if (client != null && client.player != null) {
+                ItemStack stack = client.player.getMainHandStack();
+                while (ModKeyBinding.shulkerKey.wasPressed()) {
+                    if (ShulkerColorManager.getColorForShulker(stack.getItem()) != null) {
+                        client.setScreen(new ShulkerPreviewScreen(stack, null));
+                    }
+                }
             }
         });
     }
