@@ -3,6 +3,7 @@ package fr.quentin.essentials.gui.screen;
 import fr.quentin.essentials.EssentialsClient;
 import fr.quentin.essentials.command.ModCommand;
 import fr.quentin.essentials.config.ModConfig;
+import fr.quentin.essentials.utils.Constants;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.Screen;
@@ -44,9 +45,9 @@ public class EssentialsOptionsScreen extends GameOptionsScreen {
                             config.gammaEnabled = value;
                             ModConfig.save();
                             if (value) {
-                                ModCommand.setGamma(ModCommand.GammaSettings.GAMMA_ON);
+                                ModCommand.setGamma(Constants.GAMMA_ON);
                             } else {
-                                ModCommand.setGamma(ModCommand.GammaSettings.GAMMA_OFF);
+                                ModCommand.setGamma(Constants.GAMMA_OFF);
                             }
                         }
                 ),

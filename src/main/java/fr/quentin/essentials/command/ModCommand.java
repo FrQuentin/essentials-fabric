@@ -45,21 +45,14 @@ public class ModCommand {
                         .then(ClientCommandManager.literal("toggle")
                                 .executes(ModCommand::executeGammaToggle))
                         .then(ClientCommandManager.literal("increase")
-                                .then(ClientCommandManager.argument("value", DoubleArgumentType.doubleArg(0.1, GammaSettings.GAMMA_MAX))
+                                .then(ClientCommandManager.argument("value", DoubleArgumentType.doubleArg(0.1, Constants.GAMMA_MAX))
                                         .executes(ModCommand::executeGammaIncrease)))
                         .then(ClientCommandManager.literal("decrease")
-                                .then(ClientCommandManager.argument("value", DoubleArgumentType.doubleArg(0.1, GammaSettings.GAMMA_MAX))
+                                .then(ClientCommandManager.argument("value", DoubleArgumentType.doubleArg(0.1, Constants.GAMMA_MAX))
                                         .executes(ModCommand::executeGammaDecrease)))
                         .then(ClientCommandManager.literal("reset")
                                 .executes(ModCommand::executeGammaReset))
         );
-    }
-
-    public static class GammaSettings {
-        public static final double GAMMA_ON = Constants.GAMMA_ON;
-        public static final double GAMMA_OFF = Constants.GAMMA_OFF;
-        public static final double GAMMA_MIN = Constants.GAMMA_MIN;
-        public static final double GAMMA_MAX = Constants.GAMMA_MAX;
     }
 
     private static int executeGammaStatus(CommandContext<FabricClientCommandSource> context) {
@@ -73,10 +66,10 @@ public class ModCommand {
         ModConfig.setGammaEnabled(newState);
 
         if (newState) {
-            setGamma(GammaSettings.GAMMA_ON);
+            setGamma(Constants.GAMMA_ON);
             context.getSource().sendFeedback(Text.translatable("gamma.toggled_on"));
         } else {
-            setGamma(GammaSettings.GAMMA_OFF);
+            setGamma(Constants.GAMMA_OFF);
             context.getSource().sendFeedback(Text.translatable("gamma.toggled_off"));
         }
         return 1;
@@ -85,9 +78,9 @@ public class ModCommand {
     private static int executeGammaIncrease(CommandContext<FabricClientCommandSource> context) {
         double increaseValue = DoubleArgumentType.getDouble(context, "value");
         double currentGamma = Constants.client.options.getGamma().getValue();
-        double newGamma = Math.min(currentGamma + increaseValue, GammaSettings.GAMMA_MAX);
+        double newGamma = Math.min(currentGamma + increaseValue, Constants.GAMMA_MAX);
 
-        if (newGamma == GammaSettings.GAMMA_MAX) {
+        if (newGamma == Constants.GAMMA_MAX) {
             context.getSource().sendFeedback(Text.translatable("gamma.max_limit_reached").formatted(Formatting.YELLOW));
         } else {
             setGamma(newGamma);
@@ -100,13 +93,13 @@ public class ModCommand {
     private static int executeGammaDecrease(CommandContext<FabricClientCommandSource> context) {
         double decreaseValue = DoubleArgumentType.getDouble(context, "value");
         double currentGamma = Constants.client.options.getGamma().getValue();
-        double newGamma = Math.max(currentGamma - decreaseValue, GammaSettings.GAMMA_MIN);
+        double newGamma = Math.max(currentGamma - decreaseValue, Constants.GAMMA_MIN);
 
-        if (newGamma == GammaSettings.GAMMA_MIN) {
+        if (newGamma == Constants.GAMMA_MIN) {
             context.getSource().sendFeedback(Text.translatable("gamma.min_limit_reached").formatted(Formatting.YELLOW));
         } else {
             setGamma(newGamma);
-            ModConfig.setGammaEnabled(newGamma > GammaSettings.GAMMA_OFF);
+            ModConfig.setGammaEnabled(newGamma > Constants.GAMMA_OFF);
             context.getSource().sendFeedback(Text.translatable("gamma.decreased", decreaseValue, newGamma));
         }
         return 1;
@@ -114,7 +107,7 @@ public class ModCommand {
 
     private static int executeGammaReset(CommandContext<FabricClientCommandSource> context) {
         double currentGamma = ModConfig.getGammaValue();
-        double vanillaGamma = GammaSettings.GAMMA_OFF;
+        double vanillaGamma = Constants.GAMMA_OFF;
 
         if (currentGamma == vanillaGamma) {
             context.getSource().sendFeedback(Text.translatable("gamma.already_reset").formatted(Formatting.YELLOW));
@@ -145,7 +138,7 @@ public class ModCommand {
             options.getGamma().setValue(value);
             options.write();
             ModConfig.setGammaValue(value);
-            ModConfig.setGammaEnabled(value > GammaSettings.GAMMA_OFF);
+            ModConfig.setGammaEnabled(value > Constants.GAMMA_OFF);
         } catch (Exception exception) {
             EssentialsClient.LOGGER.error("An error occurred while setting the gamma value", exception);
         }

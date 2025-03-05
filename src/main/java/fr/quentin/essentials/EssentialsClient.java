@@ -59,11 +59,11 @@ public class EssentialsClient implements ClientModInitializer {
             if (gammaEnabled) {
                 ModCommand.setGamma(gammaValue);
             } else {
-                ModCommand.setGamma(ModCommand.GammaSettings.GAMMA_OFF);
+                ModCommand.setGamma(Constants.GAMMA_OFF);
             }
         } catch (NumberFormatException e) {
             LOGGER.error("Invalid gamma value in config. Using default gamma.", e);
-            ModCommand.setGamma(ModCommand.GammaSettings.GAMMA_OFF);
+            ModCommand.setGamma(Constants.GAMMA_OFF);
         } catch (Exception e) {
             LOGGER.error("Failed to apply gamma from config", e);
         }

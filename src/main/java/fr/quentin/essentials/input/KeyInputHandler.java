@@ -27,15 +27,15 @@ public class KeyInputHandler {
         if (ModKeyBinding.gammaKey.wasPressed()) {
             double currentGammaValue = ModConfig.getGammaValue();
 
-            boolean newState = !(currentGammaValue > ModCommand.GammaSettings.GAMMA_OFF);
+            boolean newState = !(currentGammaValue > Constants.GAMMA_OFF);
 
             ModConfig.setGammaEnabled(newState);
 
             if (newState) {
-                ModCommand.setGamma(ModCommand.GammaSettings.GAMMA_ON);
+                ModCommand.setGamma(Constants.GAMMA_ON);
                 sendPlayerMessage("gamma.toggled_on");
             } else {
-                ModCommand.setGamma(ModCommand.GammaSettings.GAMMA_OFF);
+                ModCommand.setGamma(Constants.GAMMA_OFF);
                 sendPlayerMessage("gamma.toggled_off");
             }
         }
