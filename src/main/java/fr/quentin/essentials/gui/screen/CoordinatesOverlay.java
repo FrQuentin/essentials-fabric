@@ -1,9 +1,9 @@
 package fr.quentin.essentials.gui.screen;
 
 import fr.quentin.essentials.config.ModConfig;
+import fr.quentin.essentials.utils.Constants;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.DebugHud;
@@ -21,18 +21,17 @@ public class CoordinatesOverlay {
     public static void render(DrawContext context) {
         if (ModConfig.isCoordinatesEnabled()) return;
 
-        MinecraftClient client = MinecraftClient.getInstance();
-        if (client.player == null || client.world == null) return;
+        if (Constants.client.player == null || Constants.client.world == null) return;
 
-        DebugHud debugHud = client.getDebugHud();
+        DebugHud debugHud = Constants.client.getDebugHud();
         if (debugHud != null && debugHud.shouldShowDebugHud()) {
             return;
         }
 
-        Vec3d playerPos = client.player.getPos();
+        Vec3d playerPos = Constants.client.player.getPos();
         String coordinatesText = String.format("X: %.2f, Y: %.2f, Z: %.2f", playerPos.x, playerPos.y, playerPos.z);
 
-        TextRenderer textRenderer = client.textRenderer;
+        TextRenderer textRenderer = Constants.client.textRenderer;
         int textWidth = textRenderer.getWidth(coordinatesText);
         int textHeight = 9;
         int boxWidth = textWidth + PADDING_LEFT + PADDING_RIGHT;

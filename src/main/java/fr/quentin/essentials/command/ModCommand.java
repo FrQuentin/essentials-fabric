@@ -5,9 +5,9 @@ import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import fr.quentin.essentials.EssentialsClient;
 import fr.quentin.essentials.config.ModConfig;
+import fr.quentin.essentials.utils.Constants;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.GameOptions;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -56,10 +56,10 @@ public class ModCommand {
     }
 
     public static class GammaSettings {
-        public static final double GAMMA_ON = 1500.0;
-        public static final double GAMMA_OFF = 1.0;
-        public static final double GAMMA_MIN = -10000.0;
-        public static final double GAMMA_MAX = 10000.0;
+        public static final double GAMMA_ON = Constants.GAMMA_ON;
+        public static final double GAMMA_OFF = Constants.GAMMA_OFF;
+        public static final double GAMMA_MIN = Constants.GAMMA_MIN;
+        public static final double GAMMA_MAX = Constants.GAMMA_MAX;
     }
 
     private static int executeGammaStatus(CommandContext<FabricClientCommandSource> context) {
@@ -84,7 +84,7 @@ public class ModCommand {
 
     private static int executeGammaIncrease(CommandContext<FabricClientCommandSource> context) {
         double increaseValue = DoubleArgumentType.getDouble(context, "value");
-        double currentGamma = MinecraftClient.getInstance().options.getGamma().getValue();
+        double currentGamma = Constants.client.options.getGamma().getValue();
         double newGamma = Math.min(currentGamma + increaseValue, GammaSettings.GAMMA_MAX);
 
         if (newGamma == GammaSettings.GAMMA_MAX) {
@@ -99,7 +99,7 @@ public class ModCommand {
 
     private static int executeGammaDecrease(CommandContext<FabricClientCommandSource> context) {
         double decreaseValue = DoubleArgumentType.getDouble(context, "value");
-        double currentGamma = MinecraftClient.getInstance().options.getGamma().getValue();
+        double currentGamma = Constants.client.options.getGamma().getValue();
         double newGamma = Math.max(currentGamma - decreaseValue, GammaSettings.GAMMA_MIN);
 
         if (newGamma == GammaSettings.GAMMA_MIN) {
@@ -128,14 +128,13 @@ public class ModCommand {
     }
 
     public static void setGamma(double value) {
-        MinecraftClient client = MinecraftClient.getInstance();
-        if (client == null) {
+        if (Constants.client == null) {
             EssentialsClient.LOGGER.warn("Minecraft client is null, skipping gamma update");
             ModConfig.setGammaValue(value);
             return;
         }
 
-        GameOptions options = client.options;
+        GameOptions options = Constants.client.options;
         if (options == null || options.getGamma() == null) {
             EssentialsClient.LOGGER.warn("Game options are unavailable, storing gamma value in config");
             ModConfig.setGammaValue(value);

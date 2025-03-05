@@ -1,12 +1,10 @@
 package fr.quentin.essentials.utils;
 
 import fr.quentin.essentials.config.ModConfig;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.SimpleOption;
 
 public class ZoomManager {
     private static final ZoomManager INSTANCE = new ZoomManager();
-    private static final MinecraftClient MC = MinecraftClient.getInstance();
     private double currentLevel = 3.0;
     private double defaultMouseSensitivity = 0.5;
     private boolean wasZoomActiveLastTick = false;
@@ -20,7 +18,7 @@ public class ZoomManager {
             resetZoom();
             return fov;
         }
-        SimpleOption<Double> mouseSensitivitySetting = MC.options.getMouseSensitivity();
+        SimpleOption<Double> mouseSensitivitySetting = Constants.client.options.getMouseSensitivity();
 
         if (!wasZoomActiveLastTick) {
             defaultMouseSensitivity = mouseSensitivitySetting.getValue();
@@ -34,7 +32,7 @@ public class ZoomManager {
 
     private void resetZoom() {
         if (wasZoomActiveLastTick) {
-            SimpleOption<Double> mouseSensitivitySetting = MC.options.getMouseSensitivity();
+            SimpleOption<Double> mouseSensitivitySetting = Constants.client.options.getMouseSensitivity();
             mouseSensitivitySetting.setValue(defaultMouseSensitivity);
             currentLevel = 3.0;
             defaultMouseSensitivity = 0.5;

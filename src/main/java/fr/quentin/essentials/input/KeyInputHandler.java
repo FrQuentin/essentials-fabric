@@ -5,6 +5,7 @@ import fr.quentin.essentials.config.ModConfig;
 import fr.quentin.essentials.gui.screen.EssentialsOptionsScreen;
 import fr.quentin.essentials.gui.screen.ShulkerPreviewScreen;
 import fr.quentin.essentials.option.ModKeyBinding;
+import fr.quentin.essentials.utils.Constants;
 import fr.quentin.essentials.utils.ShulkerColorManager;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.MinecraftClient;
@@ -81,9 +82,8 @@ public class KeyInputHandler {
     }
 
     private static void sendPlayerMessage(String translationKey) {
-        MinecraftClient client = MinecraftClient.getInstance();
-        if (client.player != null) {
-            client.player.sendMessage(Text.translatable(translationKey), true);
+        if (Constants.client.player != null) {
+            Constants.client.player.sendMessage(Text.translatable(translationKey), true);
         }
     }
 }

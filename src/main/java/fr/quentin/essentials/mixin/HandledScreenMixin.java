@@ -2,8 +2,8 @@ package fr.quentin.essentials.mixin;
 
 import fr.quentin.essentials.gui.screen.ShulkerPreviewScreen;
 import fr.quentin.essentials.option.ModKeyBinding;
+import fr.quentin.essentials.utils.Constants;
 import fr.quentin.essentials.utils.ShulkerColorManager;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.Slot;
@@ -22,11 +22,10 @@ public class HandledScreenMixin {
 
     @Inject(at = @At("HEAD"), method = "keyPressed")
     private void keyPressed(int keyCode, int scanCode, int category, CallbackInfoReturnable<Boolean> cir) {
-        MinecraftClient client = MinecraftClient.getInstance();
         if (ModKeyBinding.shulkerKey.matchesKey(keyCode, scanCode) && this.focusedSlot != null) {
             ItemStack itemStack = this.focusedSlot.getStack();
             if (ShulkerColorManager.getColorForShulker(itemStack.getItem()) != null) {
-                client.setScreen(new ShulkerPreviewScreen(itemStack, client.currentScreen));
+                Constants.client.setScreen(new ShulkerPreviewScreen(itemStack, Constants.client.currentScreen));
             }
         }
     }
