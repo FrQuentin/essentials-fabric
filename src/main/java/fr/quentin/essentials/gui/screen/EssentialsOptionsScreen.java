@@ -55,9 +55,9 @@ public class EssentialsOptionsScreen extends GameOptionsScreen {
                         value -> Tooltip.of(Text.translatable("coordinates.tooltip")),
                         (text, value) -> value ? Text.translatable("coordinates.button.on") : Text.translatable("coordinates.button.off"),
                         SimpleOption.BOOLEAN,
-                        config.coordinatesEnabled,
+                        config.coordinatesDisabled,
                         value -> {
-                            config.coordinatesEnabled = value;
+                            config.coordinatesDisabled = value;
                             ModConfig.save();
                         }
                 )

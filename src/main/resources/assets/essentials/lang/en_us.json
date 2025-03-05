@@ -24,6 +24,7 @@
   "key.essentials.gamma": "Toggle Gamma",
   "key.essentials.coordinates": "Toggle Coordinates",
   "key.essentials.zoom": "Zoom",
+  "key.essentials.shulker": "Open Shulker Preview",
   "essentials.settings": "Essentials Settings...",
   "essentials.openFolder": "Open Minecraft Folder",
   "gamma.tooltip": "Enable or disable gamma adjustment to improve visibility",

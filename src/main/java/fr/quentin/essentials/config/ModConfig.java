@@ -19,7 +19,7 @@ public class ModConfig {
     public static class ConfigData {
         public boolean gammaEnabled = false;
         public double gammaValue = 1.0;
-        public boolean coordinatesEnabled = false;
+        public boolean coordinatesDisabled = false;
         public boolean zoomEnabled = false;
     }
 
@@ -51,6 +51,9 @@ public class ModConfig {
             try (FileWriter writer = new FileWriter(CONFIG_FILE)) {
                 GSON.toJson(configData, writer);
             }
+            if (!CONFIG_FILE.exists()) {
+                EssentialsClient.LOGGER.error("Failed to save config file: File does not exist after write attempt.");
+            }
         } catch (IOException exception) {
             EssentialsClient.LOGGER.error("Error saving Essentials configuration: {}", exception.getMessage());
         }
@@ -79,11 +82,11 @@ public class ModConfig {
     }
 
     public static boolean isCoordinatesEnabled() {
-        return !configData.coordinatesEnabled;
+        return !configData.coordinatesDisabled;
     }
 
     public static void setCoordinatesEnabled(boolean enabled) {
-        configData.coordinatesEnabled = enabled;
+        configData.coordinatesDisabled = enabled;
         save();
     }
 
