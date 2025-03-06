@@ -1,7 +1,7 @@
 package fr.quentin.essentials.mixin;
 
 import fr.quentin.essentials.EssentialsClient;
-import fr.quentin.essentials.gui.screen.EssentialsOptionsScreen;
+import fr.quentin.essentials.gui.screen.EssentialsConfigurationScreen;
 import fr.quentin.essentials.gui.screen.TitleScreenButtons;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
@@ -32,7 +32,7 @@ public abstract class TitleScreenMixin extends Screen {
                 20,
                 button -> {
                     if (this.client != null) {
-                        this.client.setScreen(new EssentialsOptionsScreen(this, this.client.options));
+                        this.client.setScreen(new EssentialsConfigurationScreen(this, this.client.options));
                     } else {
                         EssentialsClient.LOGGER.error("Cannot open settings screen: client is null");
                     }

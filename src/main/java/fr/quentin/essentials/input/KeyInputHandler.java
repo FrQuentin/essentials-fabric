@@ -2,7 +2,7 @@ package fr.quentin.essentials.input;
 
 import fr.quentin.essentials.command.ModCommand;
 import fr.quentin.essentials.config.ModConfig;
-import fr.quentin.essentials.gui.screen.EssentialsOptionsScreen;
+import fr.quentin.essentials.gui.screen.EssentialsConfigurationScreen;
 import fr.quentin.essentials.gui.screen.ShulkerPreviewScreen;
 import fr.quentin.essentials.option.ModKeyBinding;
 import fr.quentin.essentials.utils.Constants;
@@ -33,10 +33,10 @@ public class KeyInputHandler {
 
             if (newState) {
                 ModCommand.setGamma(Constants.GAMMA_ON);
-                sendPlayerMessage("gamma.toggled_on");
+                sendPlayerMessage("command.essentials.gamma.toggled_on");
             } else {
                 ModCommand.setGamma(Constants.GAMMA_OFF);
-                sendPlayerMessage("gamma.toggled_off");
+                sendPlayerMessage("command.essentials.gamma.toggled_off");
             }
         }
     }
@@ -44,7 +44,7 @@ public class KeyInputHandler {
     private static void handleConfigurationKey(MinecraftClient client) {
         if (ModKeyBinding.configurationKey.wasPressed()) {
             if (client != null && client.currentScreen == null) {
-                client.setScreen(new EssentialsOptionsScreen(null, client.options));
+                client.setScreen(new EssentialsConfigurationScreen(null, client.options));
             }
         }
     }
@@ -55,9 +55,9 @@ public class KeyInputHandler {
             ModConfig.setCoordinatesEnabled(newState);
 
             if (newState) {
-                sendPlayerMessage("coordinates.toggled_on");
+                sendPlayerMessage("command.essentials.coordinates.toggled_off");
             } else {
-                sendPlayerMessage("coordinates.toggled_off");
+                sendPlayerMessage("command.essentials.coordinates.toggled_on");
             }
         }
     }

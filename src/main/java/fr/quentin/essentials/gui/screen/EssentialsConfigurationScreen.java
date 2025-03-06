@@ -14,11 +14,11 @@ import net.minecraft.client.option.SimpleOption;
 import net.minecraft.text.Text;
 
 @Environment(EnvType.CLIENT)
-public class EssentialsOptionsScreen extends GameOptionsScreen {
-    private static final Text TITLE = Text.translatable("essentials.screen.configuration");
+public class EssentialsConfigurationScreen extends GameOptionsScreen {
+    private static final Text TITLE = Text.translatable("screen.essentials.configuration.title");
     private final ModConfig.ConfigData config;
 
-    public EssentialsOptionsScreen(Screen parent, GameOptions gameOptions) {
+    public EssentialsConfigurationScreen(Screen parent, GameOptions gameOptions) {
         super(parent, gameOptions, TITLE);
         this.config = ModConfig.getConfigData();
     }
@@ -36,9 +36,9 @@ public class EssentialsOptionsScreen extends GameOptionsScreen {
     private SimpleOption<?>[] getOptions() {
         return new SimpleOption[]{
                 new SimpleOption<>(
-                        "gamma.option.toggle",
-                        value -> Tooltip.of(Text.translatable("gamma.tooltip")),
-                        (text, value) -> value ? Text.translatable("gamma.button.on") : Text.translatable("gamma.button.off"),
+                        "screen.essentials.option.gamma",
+                        value -> Tooltip.of(Text.translatable("tooltip.essentials.gamma.description")),
+                        (text, value) -> value ? Text.translatable("screen.essentials.button.on") : Text.translatable("screen.essentials.button.off"),
                         SimpleOption.BOOLEAN,
                         config.gammaEnabled,
                         value -> {
@@ -52,13 +52,24 @@ public class EssentialsOptionsScreen extends GameOptionsScreen {
                         }
                 ),
                 new SimpleOption<>(
-                        "coordinates.option.toggle",
-                        value -> Tooltip.of(Text.translatable("coordinates.tooltip")),
-                        (text, value) -> value ? Text.translatable("coordinates.button.on") : Text.translatable("coordinates.button.off"),
+                        "screen.essentials.option.coordinates",
+                        value -> Tooltip.of(Text.translatable("tooltip.essentials.coordinates.description")),
+                        (text, value) -> value ? Text.translatable("screen.essentials.button.on") : Text.translatable("screen.essentials.button.off"),
                         SimpleOption.BOOLEAN,
-                        config.coordinatesDisabled,
+                        config.coordinatesEnabled,
                         value -> {
-                            config.coordinatesDisabled = value;
+                            config.coordinatesEnabled = value;
+                            ModConfig.save();
+                        }
+                ),
+                new SimpleOption<>(
+                        "screen.essentials.option.zoom_percentage",
+                        value -> Tooltip.of(Text.translatable("tooltip.essentials.zoom_percentage.description")),
+                        (text, value) -> value ? Text.translatable("screen.essentials.button.on") : Text.translatable("screen.essentials.button.off"),
+                        SimpleOption.BOOLEAN,
+                        config.zoomOverlayEnabled,
+                        value -> {
+                            config.zoomOverlayEnabled = value;
                             ModConfig.save();
                         }
                 )

@@ -12,6 +12,10 @@ import net.minecraft.client.option.GameOptions;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+
 public class ModCommand {
     public static void registerAll(CommandDispatcher<FabricClientCommandSource> dispatcher) {
         registerGammaCommand(dispatcher);
@@ -27,13 +31,13 @@ public class ModCommand {
     }
 
     private static int executeCoordinatesToggle(CommandContext<FabricClientCommandSource> context) {
-        boolean newState = ModConfig.isCoordinatesEnabled();
+        boolean newState = !ModConfig.isCoordinatesEnabled();
         ModConfig.setCoordinatesEnabled(newState);
 
         if (newState) {
-            context.getSource().sendFeedback(Text.translatable("coordinates.toggled_on"));
+            context.getSource().sendFeedback(Text.translatable("command.essentials.coordinates.toggled_off"));
         } else {
-            context.getSource().sendFeedback(Text.translatable("coordinates.toggled_off"));
+            context.getSource().sendFeedback(Text.translatable("command.essentials.coordinates.toggled_on"));
         }
         return 1;
     }
@@ -57,7 +61,8 @@ public class ModCommand {
 
     private static int executeGammaStatus(CommandContext<FabricClientCommandSource> context) {
         double value = ModConfig.getGammaValue();
-        context.getSource().sendFeedback(Text.translatable("gamma.current", value));
+        String formattedValue = formatGammaValue(value);
+        context.getSource().sendFeedback(Text.translatable("command.essentials.gamma.current", formattedValue));
         return 1;
     }
 
@@ -67,10 +72,10 @@ public class ModCommand {
 
         if (newState) {
             setGamma(Constants.GAMMA_ON);
-            context.getSource().sendFeedback(Text.translatable("gamma.toggled_on"));
+            context.getSource().sendFeedback(Text.translatable("command.essentials.gamma.toggled_on"));
         } else {
             setGamma(Constants.GAMMA_OFF);
-            context.getSource().sendFeedback(Text.translatable("gamma.toggled_off"));
+            context.getSource().sendFeedback(Text.translatable("command.essentials.gamma.toggled_off"));
         }
         return 1;
     }
@@ -81,11 +86,13 @@ public class ModCommand {
         double newGamma = Math.min(currentGamma + increaseValue, Constants.GAMMA_MAX);
 
         if (newGamma == Constants.GAMMA_MAX) {
-            context.getSource().sendFeedback(Text.translatable("gamma.max_limit_reached").formatted(Formatting.YELLOW));
+            context.getSource().sendFeedback(Text.translatable("command.essentials.gamma.max_limit_reached").formatted(Formatting.YELLOW));
         } else {
             setGamma(newGamma);
             ModConfig.setGammaEnabled(true);
-            context.getSource().sendFeedback(Text.translatable("gamma.increased", increaseValue, newGamma));
+            String formattedIncrease = formatGammaValue(increaseValue);
+            String formattedNewGamma = formatGammaValue(newGamma);
+            context.getSource().sendFeedback(Text.translatable("command.essentials.gamma.increased", formattedIncrease, formattedNewGamma));
         }
         return 1;
     }
@@ -96,11 +103,13 @@ public class ModCommand {
         double newGamma = Math.max(currentGamma - decreaseValue, Constants.GAMMA_MIN);
 
         if (newGamma == Constants.GAMMA_MIN) {
-            context.getSource().sendFeedback(Text.translatable("gamma.min_limit_reached").formatted(Formatting.YELLOW));
+            context.getSource().sendFeedback(Text.translatable("command.essentials.gamma.min_limit_reached").formatted(Formatting.YELLOW));
         } else {
             setGamma(newGamma);
             ModConfig.setGammaEnabled(newGamma > Constants.GAMMA_OFF);
-            context.getSource().sendFeedback(Text.translatable("gamma.decreased", decreaseValue, newGamma));
+            String formattedDecrease = formatGammaValue(decreaseValue);
+            String formattedNewGamma = formatGammaValue(newGamma);
+            context.getSource().sendFeedback(Text.translatable("command.essentials.gamma.decreased", formattedDecrease, formattedNewGamma));
         }
         return 1;
     }
@@ -110,11 +119,12 @@ public class ModCommand {
         double vanillaGamma = Constants.GAMMA_OFF;
 
         if (currentGamma == vanillaGamma) {
-            context.getSource().sendFeedback(Text.translatable("gamma.already_reset").formatted(Formatting.YELLOW));
+            context.getSource().sendFeedback(Text.translatable("command.essentials.gamma.already_reset").formatted(Formatting.YELLOW));
         } else {
             setGamma(vanillaGamma);
             ModConfig.setGammaEnabled(false);
-            context.getSource().sendFeedback(Text.translatable("gamma.reset", vanillaGamma));
+            String formattedGamma = formatGammaValue(vanillaGamma);
+            context.getSource().sendFeedback(Text.translatable("command.essentials.gamma.reset", formattedGamma));
         }
 
         return 1;
@@ -141,6 +151,35 @@ public class ModCommand {
             ModConfig.setGammaEnabled(value > Constants.GAMMA_OFF);
         } catch (Exception exception) {
             EssentialsClient.LOGGER.error("An error occurred while setting the gamma value", exception);
+        }
+    }
+
+    private static String formatGammaValue(double value) {
+        if (value == (int) value) {
+            int intValue = (int) value;
+            NumberFormat formatter = NumberFormat.getInstance();
+            formatter.setGroupingUsed(true);
+
+            if (formatter instanceof DecimalFormat) {
+                DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+                symbols.setGroupingSeparator(',');
+                symbols.setDecimalSeparator('.');
+                ((DecimalFormat) formatter).setDecimalFormatSymbols(symbols);
+            }
+
+            return formatter.format(intValue);
+        } else {
+            NumberFormat formatter = NumberFormat.getInstance();
+            formatter.setMaximumFractionDigits(1);
+            formatter.setGroupingUsed(true);
+
+            if (formatter instanceof DecimalFormat) {
+                DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+                symbols.setGroupingSeparator(',');
+                symbols.setDecimalSeparator('.');
+                ((DecimalFormat) formatter).setDecimalFormatSymbols(symbols);
+            }
+            return formatter.format(value);
         }
     }
 }

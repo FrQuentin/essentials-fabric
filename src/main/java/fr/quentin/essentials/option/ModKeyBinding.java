@@ -15,7 +15,7 @@ public class ModKeyBinding {
     public static void register() {
         configurationKey = KeyBindingHelper.registerKeyBinding(
                 new KeyBinding(
-                        "key.essentials.config",
+                        "key.essentials.configuration",
                         InputUtil.Type.KEYSYM,
                         GLFW.GLFW_KEY_H,
                         "key.categories.essentials"

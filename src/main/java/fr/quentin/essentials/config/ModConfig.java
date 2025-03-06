@@ -19,8 +19,9 @@ public class ModConfig {
     public static class ConfigData {
         public boolean gammaEnabled = false;
         public double gammaValue = 1.0;
-        public boolean coordinatesDisabled = false;
+        public boolean coordinatesEnabled = false;
         public boolean zoomEnabled = false;
+        public boolean zoomOverlayEnabled = true;
     }
 
     public static void load() {
@@ -82,11 +83,11 @@ public class ModConfig {
     }
 
     public static boolean isCoordinatesEnabled() {
-        return !configData.coordinatesDisabled;
+        return !configData.coordinatesEnabled;
     }
 
     public static void setCoordinatesEnabled(boolean enabled) {
-        configData.coordinatesDisabled = enabled;
+        configData.coordinatesEnabled = !enabled;
         save();
     }
 
@@ -96,5 +97,14 @@ public class ModConfig {
 
     public static void setZoomEnabled(boolean enabled) {
         configData.zoomEnabled = enabled;
+    }
+
+    public static boolean isZoomOverlayEnabled() {
+        return configData.zoomOverlayEnabled;
+    }
+
+    public static void setZoomOverlayEnabled(boolean enabled) {
+        configData.zoomOverlayEnabled = enabled;
+        save();
     }
 }

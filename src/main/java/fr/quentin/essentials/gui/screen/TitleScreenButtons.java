@@ -11,11 +11,11 @@ import net.minecraft.util.Identifier;
 @Environment(EnvType.CLIENT)
 public class TitleScreenButtons {
     public static TextIconButtonWidget createSettingsButton(int width, ButtonWidget.PressAction onPress, boolean hideText) {
-        Text text = Text.translatable("essentials.settings");
+        Text text = Text.translatable("screen.essentials.button.configuration");
         return TextIconButtonWidget.builder(text, onPress, hideText).width(width).texture(Identifier.of(Essentials.MOD_ID, "icon/settings"), 15, 15).build();
     }
     public static TextIconButtonWidget createFolderButton(int width, ButtonWidget.PressAction onPress, boolean hideText) {
-        Text text = Text.translatable("essentials.openFolder");
+        Text text = Text.translatable("screen.essentials.button.open_folder");
         return TextIconButtonWidget.builder(text, onPress, hideText).width(width).texture(Identifier.of(Essentials.MOD_ID, "icon/folder"), 15, 15).build();
     }
 }

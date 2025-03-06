@@ -2,6 +2,7 @@ package fr.quentin.essentials.utils;
 
 import fr.quentin.essentials.config.ModConfig;
 import net.minecraft.client.option.SimpleOption;
+import net.minecraft.text.Text;
 
 public class ZoomManager {
     private static final ZoomManager INSTANCE = new ZoomManager();
@@ -50,5 +51,16 @@ public class ZoomManager {
             currentLevel *= 0.95;
         }
         currentLevel = Math.max(1, Math.min(currentLevel, 50));
+
+        double zoomPercent = (currentLevel - 1) / 49 * 100;
+
+        if (Constants.client != null && Constants.client.inGameHud != null) {
+            Text message = Text.translatable("message.essentials.zoom.level", String.format("%.1f", zoomPercent));
+            if (ModConfig.isZoomOverlayEnabled()) {
+                if (Constants.client.player != null) {
+                    Constants.client.player.sendMessage(message, true);
+                }
+            }
+        }
     }
 }
