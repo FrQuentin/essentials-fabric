@@ -12,7 +12,7 @@ import net.minecraft.util.Identifier;
 public class TitleScreenButtons {
     public static TextIconButtonWidget createSettingsButton(int width, ButtonWidget.PressAction onPress, boolean hideText) {
         Text text = Text.translatable("screen.essentials.button.configuration");
-        return TextIconButtonWidget.builder(text, onPress, hideText).width(width).texture(Identifier.of(Essentials.MOD_ID, "icon/settings"), 15, 15).build();
+        return TextIconButtonWidget.builder(text, onPress, hideText).width(width).texture(Identifier.of(Essentials.MOD_ID, "icon/configuration"), 15, 15).build();
     }
     public static TextIconButtonWidget createFolderButton(int width, ButtonWidget.PressAction onPress, boolean hideText) {
         Text text = Text.translatable("screen.essentials.button.open_folder");
