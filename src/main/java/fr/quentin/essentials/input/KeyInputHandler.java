@@ -55,9 +55,9 @@ public class KeyInputHandler {
             ModConfig.setCoordinatesEnabled(newState);
 
             if (newState) {
-                sendPlayerMessage("command.essentials.coordinates.toggled_off");
-            } else {
                 sendPlayerMessage("command.essentials.coordinates.toggled_on");
+            } else {
+                sendPlayerMessage("command.essentials.coordinates.toggled_off");
             }
         }
     }

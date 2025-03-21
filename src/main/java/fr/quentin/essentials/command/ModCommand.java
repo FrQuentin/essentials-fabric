@@ -20,6 +20,26 @@ public class ModCommand {
     public static void registerAll(CommandDispatcher<FabricClientCommandSource> dispatcher) {
         registerGammaCommand(dispatcher);
         registerCoordinatesCommand(dispatcher);
+        registerDarknessCommand(dispatcher);
+    }
+
+    private static void registerDarknessCommand(CommandDispatcher<FabricClientCommandSource> dispatcher) {
+        dispatcher.register(
+                ClientCommandManager.literal("darkness")
+                        .then(ClientCommandManager.literal("toggle")
+                                .executes(ModCommand::executeDarknessToggle))
+        );
+    }
+
+    private static int executeDarknessToggle(CommandContext<FabricClientCommandSource> context) {
+        boolean newState = !ModConfig.isDarknessEffectEnabled();
+        ModConfig.setDarknessEffectEnabled(newState);
+        if (newState) {
+            context.getSource().sendFeedback(Text.translatable("command.essentials.darkness.toggled_on"));
+        } else {
+            context.getSource().sendFeedback(Text.translatable("command.essentials.darkness.toggled_off"));
+        }
+        return 1;
     }
 
     public static void registerCoordinatesCommand(CommandDispatcher<FabricClientCommandSource> dispatcher) {
@@ -33,11 +53,10 @@ public class ModCommand {
     private static int executeCoordinatesToggle(CommandContext<FabricClientCommandSource> context) {
         boolean newState = !ModConfig.isCoordinatesEnabled();
         ModConfig.setCoordinatesEnabled(newState);
-
         if (newState) {
-            context.getSource().sendFeedback(Text.translatable("command.essentials.coordinates.toggled_off"));
-        } else {
             context.getSource().sendFeedback(Text.translatable("command.essentials.coordinates.toggled_on"));
+        } else {
+            context.getSource().sendFeedback(Text.translatable("command.essentials.coordinates.toggled_off"));
         }
         return 1;
     }

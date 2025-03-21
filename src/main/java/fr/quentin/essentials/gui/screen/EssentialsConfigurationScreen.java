@@ -72,6 +72,17 @@ public class EssentialsConfigurationScreen extends GameOptionsScreen {
                             config.zoomOverlayEnabled = value;
                             ModConfig.save();
                         }
+                ),
+                new SimpleOption<>(
+                        "screen.essentials.option.darkness_effect",
+                        value -> Tooltip.of(Text.translatable("tooltip.essentials.darkness_effect.description")),
+                        (text, value) -> value ? Text.translatable("screen.essentials.button.off") : Text.translatable("screen.essentials.button.on"),
+                        SimpleOption.BOOLEAN,
+                        config.darknessEffectEnabled,
+                        value -> {
+                            config.darknessEffectEnabled = value;
+                            ModConfig.save();
+                        }
                 )
         };
     }

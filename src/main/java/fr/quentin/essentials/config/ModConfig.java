@@ -22,6 +22,7 @@ public class ModConfig {
         public boolean coordinatesEnabled = false;
         public boolean zoomEnabled = false;
         public boolean zoomOverlayEnabled = true;
+        public boolean darknessEffectEnabled = false;
     }
 
     public static void load() {
@@ -105,6 +106,15 @@ public class ModConfig {
 
     public static void setZoomOverlayEnabled(boolean enabled) {
         configData.zoomOverlayEnabled = enabled;
+        save();
+    }
+
+    public static boolean isDarknessEffectEnabled() {
+        return configData.darknessEffectEnabled;
+    }
+
+    public static void setDarknessEffectEnabled(boolean enabled) {
+        configData.darknessEffectEnabled = enabled;
         save();
     }
 }

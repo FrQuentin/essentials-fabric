@@ -16,7 +16,7 @@ import net.minecraft.world.biome.Biome;
 public class CoordinatesOverlay {
     private static final int PADDING_TOP = 5;
     private static final int PADDING_LEFT = 8;
-    private static final int PADDING_BOTTOM = 3;
+    private static final int PADDING_BOTTOM = 5;
     private static final int PADDING_RIGHT = 8;
     private static final int INITIAL_POSITION_X = 5;
     private static final int INITIAL_POSITION_Y = 5;
@@ -73,7 +73,7 @@ public class CoordinatesOverlay {
                 textRenderer,
                 "Biome: " + cachedBiomeName,
                 boxX + PADDING_LEFT,
-                boxY + PADDING_TOP + 11,
+                boxY + PADDING_TOP + 12,
                 0xFFFFFFFF,
                 false
         );

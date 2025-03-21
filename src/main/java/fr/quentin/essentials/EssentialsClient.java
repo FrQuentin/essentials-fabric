@@ -6,6 +6,7 @@ import fr.quentin.essentials.input.KeyInputHandler;
 import fr.quentin.essentials.option.ModKeyBinding;
 import fr.quentin.essentials.gui.screen.CoordinatesOverlay;
 import fr.quentin.essentials.utils.Constants;
+import fr.quentin.essentials.utils.DarknessEffectHandler;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
@@ -36,6 +37,7 @@ public class EssentialsClient implements ClientModInitializer {
                     (context, tickCounter) -> CoordinatesOverlay.render(context)
             );
         });
+        DarknessEffectHandler.register();
     }
 
     private void registerClientCommands() {
