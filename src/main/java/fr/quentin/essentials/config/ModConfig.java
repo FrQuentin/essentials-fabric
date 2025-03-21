@@ -23,6 +23,7 @@ public class ModConfig {
         public boolean zoomEnabled = false;
         public boolean zoomOverlayEnabled = true;
         public boolean darknessEffectEnabled = false;
+        public boolean marketRestockNotificationEnabled = true;
     }
 
     public static void load() {
@@ -115,6 +116,15 @@ public class ModConfig {
 
     public static void setDarknessEffectEnabled(boolean enabled) {
         configData.darknessEffectEnabled = enabled;
+        save();
+    }
+
+    public static boolean isMarketRestockNotificationEnabled() {
+        return configData.marketRestockNotificationEnabled;
+    }
+
+    public static void setMarketRestockNotificationEnabled(boolean enabled) {
+        configData.marketRestockNotificationEnabled = enabled;
         save();
     }
 }

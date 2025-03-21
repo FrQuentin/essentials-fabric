@@ -3,6 +3,7 @@ package fr.quentin.essentials;
 import fr.quentin.essentials.command.ModCommand;
 import fr.quentin.essentials.config.ModConfig;
 import fr.quentin.essentials.input.KeyInputHandler;
+import fr.quentin.essentials.notification.MarketRestockNotifier;
 import fr.quentin.essentials.option.ModKeyBinding;
 import fr.quentin.essentials.gui.screen.CoordinatesOverlay;
 import fr.quentin.essentials.utils.Constants;
@@ -38,6 +39,7 @@ public class EssentialsClient implements ClientModInitializer {
             );
         });
         DarknessEffectHandler.register();
+        MarketRestockNotifier.register();
     }
 
     private void registerClientCommands() {

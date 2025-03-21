@@ -21,15 +21,19 @@
   "screen.essentials.button.configuration": "Open Configuration",
   "screen.essentials.button.open_folder": "Open Minecraft Folder",
   "screen.essentials.option.darkness_effect": "Darkness Effect",
-  "tooltip.essentials.darkness_effect.description": "Toggle the Darkness effect on or off",
+  "screen.essentials.option.market_restock_notification": "Restock Notification",
   "tooltip.essentials.gamma.description": "Adjust gamma for better visibility",
   "tooltip.essentials.coordinates.description": "Toggle player coordinate display",
   "tooltip.essentials.zoom_percentage.description": "Show current zoom level percentage",
+  "tooltip.essentials.darkness_effect.description": "Toggle the Darkness effect on or off",
+  "tooltip.essentials.market_restock_notification.description": "Receive a notification when markets restock",
   "message.essentials.zoom.level": "Zoom: %s%%",
   "key.categories.essentials": "Essentials",
   "key.essentials.configuration": "Configuration Screen",
   "key.essentials.gamma": "Toggle Gamma",
   "key.essentials.coordinates": "Toggle Coordinates",
   "key.essentials.zoom": "Zoom",
-  "key.essentials.shulker": "Shulker Preview"
+  "key.essentials.shulker": "Shulker Preview",
+  "notification.essentials.market_restock.title": "Origin Realms",
+  "notification.essentials.market_restock.description": "Markets have restocked!"
 }

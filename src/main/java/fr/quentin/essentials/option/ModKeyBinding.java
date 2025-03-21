@@ -17,7 +17,7 @@ public class ModKeyBinding {
                 new KeyBinding(
                         "key.essentials.configuration",
                         InputUtil.Type.KEYSYM,
-                        GLFW.GLFW_KEY_H,
+                        GLFW.GLFW_KEY_LEFT_ALT,
                         "key.categories.essentials"
                 )
         );

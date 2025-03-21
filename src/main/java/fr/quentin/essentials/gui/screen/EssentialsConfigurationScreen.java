@@ -83,6 +83,17 @@ public class EssentialsConfigurationScreen extends GameOptionsScreen {
                             config.darknessEffectEnabled = value;
                             ModConfig.save();
                         }
+                ),
+                new SimpleOption<>(
+                        "screen.essentials.option.market_restock_notification",
+                        value -> Tooltip.of(Text.translatable("tooltip.essentials.market_restock_notification.description")),
+                        (text, value) -> value ? Text.translatable("screen.essentials.button.on") : Text.translatable("screen.essentials.button.off"),
+                        SimpleOption.BOOLEAN,
+                        config.marketRestockNotificationEnabled,
+                        value -> {
+                            config.marketRestockNotificationEnabled = value;
+                            ModConfig.save();
+                        }
                 )
         };
     }
