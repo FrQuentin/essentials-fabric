@@ -8,7 +8,9 @@
 		"GameRendererMixin",
 		"MouseMixin",
 		"HandledScreenMixin",
-		"EntryListWidgetMixin"
+		"EntryListWidgetMixin",
+		"GameMenuScreenMixin",
+		"OptionsScreenMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

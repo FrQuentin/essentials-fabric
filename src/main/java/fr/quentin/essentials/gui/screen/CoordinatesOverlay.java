@@ -14,13 +14,15 @@ import net.minecraft.world.biome.Biome;
 
 @Environment(EnvType.CLIENT)
 public class CoordinatesOverlay {
+    private static final int BACKGROUND_COLOR = 0x70000000;
+    private static final int TEXT_COLOR = 0xFFFFFFFF;
     private static final int PADDING_TOP = 5;
     private static final int PADDING_LEFT = 8;
-    private static final int PADDING_BOTTOM = 5;
+    private static final int PADDING_BOTTOM = 7;
     private static final int PADDING_RIGHT = 8;
     private static final int INITIAL_POSITION_X = 5;
     private static final int INITIAL_POSITION_Y = 5;
-    private static String cachedBiomeName = null;
+    private static Text cachedBiomeText = null;
     private static Vec3d lastPlayerPos = null;
 
     public static void render(DrawContext context) {
@@ -36,46 +38,54 @@ public class CoordinatesOverlay {
 
         if (lastPlayerPos == null || !lastPlayerPos.equals(playerPos)) {
             RegistryEntry<Biome> biomeEntry = Constants.client.world.getBiome(Constants.client.player.getBlockPos());
-            String biomeId = biomeEntry.getKey().map(key -> key.getValue().toString()).orElse("Unknown Biome");
-
+            String biomeId = biomeEntry.getKey().map(key -> key.getValue().toString()).orElse("unknown");
             String biomeTranslationKey = "biome." + biomeId.replace(":", ".");
-            cachedBiomeName = Text.translatable(biomeTranslationKey).getString();
+            Text biomeNameText = Text.translatable(biomeTranslationKey);
+
+            cachedBiomeText = Text.translatable("overlay.essentials.biome_id", biomeNameText);
             lastPlayerPos = playerPos;
         }
-
-        String coordinatesText = String.format("X: %.2f, Y: %.2f, Z: %.2f", playerPos.x, playerPos.y, playerPos.z);
+        Text coordinatesText = Text.translatable("overlay.essentials.coordinates_xyz",
+                String.format("%.2f", playerPos.x),
+                String.format("%.2f", playerPos.y),
+                String.format("%.2f", playerPos.z));
         TextRenderer textRenderer = Constants.client.textRenderer;
 
         int coordinatesWidth = textRenderer.getWidth(coordinatesText);
-        int biomeWidth = textRenderer.getWidth("Biome: " + cachedBiomeName);
+        int biomeWidth = textRenderer.getWidth(cachedBiomeText);
         int maxWidth = Math.max(coordinatesWidth, biomeWidth);
         int boxWidth = maxWidth + PADDING_LEFT + PADDING_RIGHT;
         int boxHeight = (9 * 2) + PADDING_TOP + PADDING_BOTTOM;
         int boxX = INITIAL_POSITION_X;
         int boxY = INITIAL_POSITION_Y;
 
-        context.fill(
-                boxX,
-                boxY,
-                boxX + boxWidth,
-                boxY + boxHeight,
-                0x80000000
-        );
+        drawRoundedRect(context, boxX, boxY, boxX + boxWidth, boxY + boxHeight);
+
         context.drawText(
                 textRenderer,
                 coordinatesText,
                 boxX + PADDING_LEFT,
                 boxY + PADDING_TOP,
-                0xFFFFFFFF,
+                TEXT_COLOR,
                 false
         );
         context.drawText(
                 textRenderer,
-                "Biome: " + cachedBiomeName,
+                cachedBiomeText,
                 boxX + PADDING_LEFT,
                 boxY + PADDING_TOP + 12,
-                0xFFFFFFFF,
+                TEXT_COLOR,
                 false
         );
+    }
+
+    private static void drawRoundedRect(DrawContext context, int left, int top, int right, int bottom) {
+        context.fill(left + 1, top, right - 1, bottom, BACKGROUND_COLOR);
+        context.fill(left, top + 1, left + 1, bottom - 1, BACKGROUND_COLOR);
+        context.fill(right - 1, top + 1, right, bottom - 1, BACKGROUND_COLOR);
+        context.fill(left + 1, top, left + 1, top + 1, BACKGROUND_COLOR);
+        context.fill(right - 1, top, right - 1, top + 1, BACKGROUND_COLOR);
+        context.fill(left + 1, bottom - 1, left + 1, bottom, BACKGROUND_COLOR);
+        context.fill(right - 1, bottom - 1, right - 1, bottom, BACKGROUND_COLOR);
     }
 }
