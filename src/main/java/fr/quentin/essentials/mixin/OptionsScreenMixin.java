@@ -17,6 +17,7 @@ import java.util.Optional;
 
 @Mixin(OptionsScreen.class)
 public abstract class OptionsScreenMixin extends Screen {
+    private static final String CREDITS_TRANSLATION_KEY = "options.credits_and_attribution";
     private TextIconButtonWidget settingsButton;
     private ButtonWidget creditsButton;
 
@@ -31,15 +32,19 @@ public abstract class OptionsScreenMixin extends Screen {
             return;
         }
 
-        Optional<ButtonWidget> foundCreditsButton = this.children()
+        Optional<ButtonWidget> lastButton = this.children()
                 .stream()
                 .filter(widget -> widget instanceof ButtonWidget)
                 .map(widget -> (ButtonWidget) widget)
-                .filter(button -> button.getMessage().getString().contains("Credits"))
+                .filter(button -> {
+                    String key = button.getMessage().getString();
+                    Text translatedText = Text.translatable(CREDITS_TRANSLATION_KEY);
+                    return key.equals(translatedText.getString());
+                })
                 .findFirst();
 
-        if (foundCreditsButton.isPresent()) {
-            creditsButton = foundCreditsButton.get();
+        if (lastButton.isPresent()) {
+            creditsButton = lastButton.get();
             int buttonSize = 20;
             int padding = 4;
 

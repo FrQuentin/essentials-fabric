@@ -85,7 +85,7 @@ public class ModConfig {
     }
 
     public static boolean isCoordinatesEnabled() {
-        return !configData.coordinatesEnabled;
+        return configData.coordinatesEnabled;
     }
 
     public static void setCoordinatesEnabled(boolean enabled) {
@@ -111,7 +111,7 @@ public class ModConfig {
     }
 
     public static boolean isDarknessEffectEnabled() {
-        return configData.darknessEffectEnabled;
+        return !configData.darknessEffectEnabled;
     }
 
     public static void setDarknessEffectEnabled(boolean enabled) {

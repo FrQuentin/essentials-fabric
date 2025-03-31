@@ -26,7 +26,7 @@ public class CoordinatesOverlay {
     private static Vec3d lastPlayerPos = null;
 
     public static void render(DrawContext context) {
-        if (!ModConfig.isCoordinatesEnabled()) return;
+        if (ModConfig.isCoordinatesEnabled()) return;
 
         if (Constants.client.player == null || Constants.client.world == null) return;
 

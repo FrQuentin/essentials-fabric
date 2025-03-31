@@ -26,6 +26,8 @@ public class EssentialsClient implements ClientModInitializer {
         registerClientCommands();
         ModKeyBinding.register();
         KeyInputHandler.register();
+        DarknessEffectHandler.register();
+        MarketRestockNotifier.register();
 
         ClientLifecycleEvents.CLIENT_STARTED.register(client -> {
             applyGammaFromConfig();
@@ -38,8 +40,6 @@ public class EssentialsClient implements ClientModInitializer {
                     (context, tickCounter) -> CoordinatesOverlay.render(context)
             );
         });
-        DarknessEffectHandler.register();
-        MarketRestockNotifier.register();
     }
 
     private void registerClientCommands() {

@@ -15,18 +15,17 @@ import net.minecraft.text.Text;
 public class KeyInputHandler {
     public static void register() {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            handleGammaKey(client);
-            handleConfigurationKey(client);
-            handleCoordinatesKey(client);
+            handleGammaKey();
+            handleConfigurationKey();
+            handleCoordinatesKey();
             handleZoomKey();
             handleShulkerKey(client);
         });
     }
 
-    private static void handleGammaKey(MinecraftClient client) {
+    private static void handleGammaKey() {
         if (ModKeyBinding.gammaKey.wasPressed()) {
             double currentGammaValue = ModConfig.getGammaValue();
-
             boolean newState = !(currentGammaValue > Constants.GAMMA_OFF);
 
             ModConfig.setGammaEnabled(newState);
@@ -41,17 +40,17 @@ public class KeyInputHandler {
         }
     }
 
-    private static void handleConfigurationKey(MinecraftClient client) {
+    private static void handleConfigurationKey() {
         if (ModKeyBinding.configurationKey.wasPressed()) {
-            if (client != null && client.currentScreen == null) {
-                client.setScreen(new EssentialsConfigurationScreen(null, client.options));
+            if (Constants.client != null && Constants.client.currentScreen == null) {
+                Constants.client.setScreen(new EssentialsConfigurationScreen(null, Constants.client.options));
             }
         }
     }
 
-    private static void handleCoordinatesKey(MinecraftClient client) {
+    private static void handleCoordinatesKey() {
         if (ModKeyBinding.coordinatesKey.wasPressed()) {
-            boolean newState = !ModConfig.isCoordinatesEnabled();
+            boolean newState = ModConfig.isCoordinatesEnabled();
             ModConfig.setCoordinatesEnabled(newState);
 
             if (newState) {

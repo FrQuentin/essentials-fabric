@@ -8,7 +8,7 @@ import net.minecraft.entity.effect.StatusEffects;
 public class DarknessEffectHandler {
     public static void register() {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            if (!ModConfig.isDarknessEffectEnabled()) return;
+            if (ModConfig.isDarknessEffectEnabled()) return;
 
             if (client.player != null) {
                 StatusEffectInstance darknessEffect = client.player.getStatusEffect(StatusEffects.DARKNESS);
