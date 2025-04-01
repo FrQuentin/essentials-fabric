@@ -19,8 +19,6 @@ import java.nio.file.Path;
 
 @Mixin(GameMenuScreen.class)
 public abstract class GameMenuScreenMixin extends Screen {
-    private static final String EXIT_TRANSLATION_KEY = "menu.returnToMenu";
-
     @Shadow
     private ButtonWidget exitButton;
 
@@ -30,36 +28,18 @@ public abstract class GameMenuScreenMixin extends Screen {
 
     @Inject(method = "init", at = @At("RETURN"))
     private void init(CallbackInfo info) {
-        if (this.client == null) {
-            EssentialsClient.LOGGER.error("Cannot initialize buttons: client is null");
+        if (this.client == null || exitButton == null) {
+            EssentialsClient.LOGGER.error("Cannot initialize buttons: client or exitButton is null");
             return;
         }
-
-        ButtonWidget exitButtonFound = null;
-        for (var child : this.children()) {
-            if (child instanceof ButtonWidget button) {
-                Text translatedText = Text.translatable(EXIT_TRANSLATION_KEY);
-                if (button.getMessage().getString().equals(translatedText.getString())) {
-                    exitButtonFound = button;
-                    break;
-                }
-            }
-        }
-
-        if (exitButtonFound == null) {
-            EssentialsClient.LOGGER.error("Cannot initialize buttons: exit button not found");
-            return;
-        }
-
-        this.exitButton = exitButtonFound;
 
         int buttonSize = 20;
         int padding = 4;
-        int basePadding = 14;
+        int largePadding = 12;
         int exitButtonX = exitButton.getX();
         int exitButtonY = exitButton.getY();
         int exitButtonWidth = exitButton.getWidth();
-        int folderX = exitButtonX + exitButtonWidth + basePadding;
+        int folderX = exitButtonX + exitButtonWidth + largePadding;
         int settingsX = folderX + buttonSize + padding;
         int y = exitButtonY + (exitButton.getHeight() - buttonSize) / 2;
 

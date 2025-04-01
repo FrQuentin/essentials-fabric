@@ -3,6 +3,7 @@ package fr.quentin.essentials.mixin;
 import fr.quentin.essentials.EssentialsClient;
 import fr.quentin.essentials.gui.screen.EssentialsConfigurationScreen;
 import fr.quentin.essentials.gui.screen.TitleScreenButtons;
+import fr.quentin.essentials.utils.Constants;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -18,8 +19,6 @@ import java.util.Optional;
 
 @Mixin(TitleScreen.class)
 public abstract class TitleScreenMixin extends Screen {
-    private static final String ACCESSIBILITY_TRANSLATION_KEY = "narrator.button.accessibility";
-
     public TitleScreenMixin(Text title) {
         super(title);
     }
@@ -35,7 +34,7 @@ public abstract class TitleScreenMixin extends Screen {
                 .filter(widget -> widget instanceof ButtonWidget)
                 .map(widget -> (ButtonWidget) widget)
                 .filter(button -> {
-                    Text translatedText = Text.translatable(ACCESSIBILITY_TRANSLATION_KEY);
+                    Text translatedText = Text.translatable(Constants.ACCESSIBILITY_TRANSLATION_KEY);
                     return button.getMessage().getString().equals(translatedText.getString());
                 })
                 .findFirst();

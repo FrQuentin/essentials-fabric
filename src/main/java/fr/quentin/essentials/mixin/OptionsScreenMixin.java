@@ -3,6 +3,7 @@ package fr.quentin.essentials.mixin;
 import fr.quentin.essentials.EssentialsClient;
 import fr.quentin.essentials.gui.screen.EssentialsConfigurationScreen;
 import fr.quentin.essentials.gui.screen.TitleScreenButtons;
+import fr.quentin.essentials.utils.Constants;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.OptionsScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -17,7 +18,6 @@ import java.util.Optional;
 
 @Mixin(OptionsScreen.class)
 public abstract class OptionsScreenMixin extends Screen {
-    private static final String CREDITS_TRANSLATION_KEY = "options.credits_and_attribution";
     private TextIconButtonWidget settingsButton;
     private ButtonWidget creditsButton;
 
@@ -38,7 +38,7 @@ public abstract class OptionsScreenMixin extends Screen {
                 .map(widget -> (ButtonWidget) widget)
                 .filter(button -> {
                     String key = button.getMessage().getString();
-                    Text translatedText = Text.translatable(CREDITS_TRANSLATION_KEY);
+                    Text translatedText = Text.translatable(Constants.CREDITS_TRANSLATION_KEY);
                     return key.equals(translatedText.getString());
                 })
                 .findFirst();
