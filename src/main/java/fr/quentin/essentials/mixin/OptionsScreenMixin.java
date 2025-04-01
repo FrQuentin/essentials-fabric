@@ -28,21 +28,11 @@ public abstract class OptionsScreenMixin extends Screen {
     @Inject(method = "init", at = @At("RETURN"))
     private void init(CallbackInfo info) {
         if (this.client == null) {
-            EssentialsClient.LOGGER.error("Cannot initialize settings button: client is null");
+            EssentialsClient.LOGGER.error(Constants.ERROR_CLIENT_NULL);
             return;
         }
 
-        Optional<ButtonWidget> lastButton = findCreditsButton();
-        if (lastButton.isPresent()) {
-            creditsButton = lastButton.get();
-            createAndPositionSettingsButton();
-        } else {
-            createFallbackSettingsButton();
-        }
-    }
-
-    private Optional<ButtonWidget> findCreditsButton() {
-        return this.children()
+        Optional<ButtonWidget> lastButton = this.children()
                 .stream()
                 .filter(widget -> widget instanceof ButtonWidget)
                 .map(widget -> (ButtonWidget) widget)
@@ -52,30 +42,27 @@ public abstract class OptionsScreenMixin extends Screen {
                     return key.equals(translatedText.getString());
                 })
                 .findFirst();
-    }
 
-    private void createAndPositionSettingsButton() {
-        int buttonSize = 20;
-        int padding = 4;
+        if (lastButton.isPresent()) {
+            creditsButton = lastButton.get();
+            settingsButton = this.addDrawableChild(ButtonManager.createSettingsButton(
+                    Constants.BUTTON_SIZE,
+                    button -> this.client.setScreen(new EssentialsConfigurationScreen(this, this.client.options)),
+                    true
+            ));
+            updateSettingsButtonPosition();
+        } else {
+            EssentialsClient.LOGGER.warn(Constants.WARN_CREDITS_BUTTON_MISSING);
+            int settingsX = this.width - Constants.BUTTON_SIZE - Constants.SMALL_PADDING;
+            int y = Constants.SMALL_PADDING;
 
-        settingsButton = ButtonManager.createSettingsButton(buttonSize, button -> tryOpenSettingsScreen(), true);
-
-        updateSettingsButtonPosition();
-        this.addDrawableChild(settingsButton);
-    }
-
-    private void createFallbackSettingsButton() {
-        int buttonSize = 20;
-        int padding = 4;
-        int settingsX = this.width - buttonSize - padding;
-        int y = padding;
-
-        settingsButton = ButtonManager.createSettingsButton(buttonSize, button -> tryOpenSettingsScreen(), true);
-
-        ButtonManager.positionButton(settingsButton, settingsX, y);
-        this.addDrawableChild(settingsButton);
-
-        EssentialsClient.LOGGER.warn("Credits & Attribution button not found, using fallback positioning");
+            settingsButton = this.addDrawableChild(ButtonManager.createSettingsButton(
+                    Constants.BUTTON_SIZE,
+                    button -> this.client.setScreen(new EssentialsConfigurationScreen(this, this.client.options)),
+                    true
+            ));
+            ButtonManager.positionButton(settingsButton, settingsX, y);
+        }
     }
 
     @Inject(method = "refreshWidgetPositions", at = @At("RETURN"))
@@ -92,14 +79,6 @@ public abstract class OptionsScreenMixin extends Screen {
             int settingsX = creditsButton.getX() + creditsButton.getWidth() + padding;
             int settingsY = creditsButton.getY() + (creditsButton.getHeight() - buttonSize) / 2;
             ButtonManager.positionButton(settingsButton, settingsX, settingsY);
-        }
-    }
-
-    private void tryOpenSettingsScreen() {
-        if (this.client != null) {
-            this.client.setScreen(new EssentialsConfigurationScreen(this, this.client.options));
-        } else {
-            EssentialsClient.LOGGER.error("Cannot open settings screen: client is null");
         }
     }
 }

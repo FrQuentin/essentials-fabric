@@ -25,20 +25,7 @@ public abstract class TitleScreenMixin extends Screen {
 
     @Inject(method = "init", at = @At("RETURN"))
     private void init(CallbackInfo info) {
-        Optional<ButtonWidget> accessibilityButton = findAccessibilityButton();
-        if (accessibilityButton.isPresent()) {
-            ButtonWidget accessibility = accessibilityButton.get();
-            createAndPositionButtons(accessibility.getY(), accessibility.getX());
-        } else {
-            EssentialsClient.LOGGER.warn("Accessibility button not found, using fallback positioning");
-            int l = this.height / 4 + 48 + 72 + 12;
-            int folderX = this.width / 2 + 104 + 34; // basePadding = buttonSize + 14
-            createAndPositionButtons(l, folderX);
-        }
-    }
-
-    private Optional<ButtonWidget> findAccessibilityButton() {
-        return this.children()
+        Optional<ButtonWidget> accessibilityButton = this.children()
                 .stream()
                 .filter(widget -> widget instanceof ButtonWidget)
                 .map(widget -> (ButtonWidget) widget)
@@ -47,43 +34,52 @@ public abstract class TitleScreenMixin extends Screen {
                     return button.getMessage().getString().equals(translatedText.getString());
                 })
                 .findFirst();
+
+        if (accessibilityButton.isPresent()) {
+            ButtonWidget accessibility = accessibilityButton.get();
+            int referenceY = accessibility.getY() + (accessibility.getHeight() - Constants.BUTTON_SIZE) / 2;
+            int folderX = accessibility.getX() + accessibility.getWidth() + Constants.BASE_PADDING;
+            createAndPositionButtons(referenceY, folderX);
+        } else {
+            EssentialsClient.LOGGER.warn(Constants.WARN_ACCESSIBILITY_BUTTON_MISSING);
+            int referenceY = this.height / 4 + Constants.FALLBACK_BUTTON_Y_OFFSET;
+            int folderX = this.width / 2 + Constants.FALLBACK_FOLDER_X_OFFSET + Constants.BASE_PADDING;
+            createAndPositionButtons(referenceY, folderX);
+        }
     }
 
     private void createAndPositionButtons(int referenceY, int folderX) {
-        int buttonSize = 20;
-        int padding = 4;
+        TextIconButtonWidget folderButton = ButtonManager.createFolderButton(
+                Constants.BUTTON_SIZE,
+                button -> {
+                    if (this.client != null) {
+                        try {
+                            Util.getOperatingSystem().open(this.client.runDirectory.toPath().toFile());
+                        } catch (Exception e) {
+                            EssentialsClient.LOGGER.error(Constants.ERROR_OPEN_DIRECTORY, e);
+                        }
+                    } else {
+                        EssentialsClient.LOGGER.error(Constants.ERROR_CLIENT_NULL);
+                    }
+                }, true
+        );
 
-        TextIconButtonWidget folderButton = ButtonManager.createFolderButton(buttonSize, button ->
-                tryOpenMinecraftDirectory(), true);
+        TextIconButtonWidget settingsButton = ButtonManager.createSettingsButton(
+                Constants.BUTTON_SIZE,
+                button -> {
+                    if (this.client != null) {
+                        this.client.setScreen(new EssentialsConfigurationScreen(this, this.client.options));
+                    } else {
+                        EssentialsClient.LOGGER.error(Constants.ERROR_CLIENT_NULL);
+                    }
+                }, true
+        );
 
-        TextIconButtonWidget settingsButton = ButtonManager.createSettingsButton(buttonSize, button ->
-                tryOpenSettingsScreen(), true);
-
-        int settingsX = folderX + buttonSize + padding;
+        int settingsX = folderX + Constants.BUTTON_SIZE + Constants.SMALL_PADDING;
         ButtonManager.positionButton(folderButton, folderX, referenceY);
         ButtonManager.positionButton(settingsButton, settingsX, referenceY);
 
         this.addDrawableChild(folderButton);
         this.addDrawableChild(settingsButton);
-    }
-
-    private void tryOpenMinecraftDirectory() {
-        if (this.client != null) {
-            try {
-                Util.getOperatingSystem().open(this.client.runDirectory.toPath().toFile());
-            } catch (Exception e) {
-                EssentialsClient.LOGGER.error("Failed to open Minecraft directory", e);
-            }
-        } else {
-            EssentialsClient.LOGGER.error("Cannot open Minecraft directory: client is null");
-        }
-    }
-
-    private void tryOpenSettingsScreen() {
-        if (this.client != null) {
-            this.client.setScreen(new EssentialsConfigurationScreen(this, this.client.options));
-        } else {
-            EssentialsClient.LOGGER.error("Cannot open settings screen: client is null");
-        }
     }
 }
