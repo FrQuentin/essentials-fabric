@@ -1,8 +1,8 @@
 package fr.quentin.essentials.mixin;
 
 import fr.quentin.essentials.EssentialsClient;
+import fr.quentin.essentials.gui.screen.ButtonManager;
 import fr.quentin.essentials.gui.screen.EssentialsConfigurationScreen;
-import fr.quentin.essentials.gui.screen.TitleScreenButtons;
 import net.minecraft.client.gui.screen.GameMenuScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -14,8 +14,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.nio.file.Path;
 
 @Mixin(GameMenuScreen.class)
 public abstract class GameMenuScreenMixin extends Screen {
@@ -36,36 +34,48 @@ public abstract class GameMenuScreenMixin extends Screen {
         int buttonSize = 20;
         int padding = 4;
         int largePadding = 12;
-        int exitButtonX = exitButton.getX();
-        int exitButtonY = exitButton.getY();
-        int exitButtonWidth = exitButton.getWidth();
-        int folderX = exitButtonX + exitButtonWidth + largePadding;
+
+        int folderX = exitButton.getX() + exitButton.getWidth() + largePadding;
+        int referenceY = exitButton.getY() + (exitButton.getHeight() - buttonSize) / 2;
+
+        createAndPositionButtons(referenceY, folderX);
+    }
+
+    private void createAndPositionButtons(int referenceY, int folderX) {
+        int buttonSize = 20;
+        int padding = 4;
+
+        TextIconButtonWidget folderButton = ButtonManager.createFolderButton(buttonSize, button ->
+                tryOpenMinecraftDirectory(), true);
+
+        TextIconButtonWidget settingsButton = ButtonManager.createSettingsButton(buttonSize, button ->
+                tryOpenSettingsScreen(), true);
+
         int settingsX = folderX + buttonSize + padding;
-        int y = exitButtonY + (exitButton.getHeight() - buttonSize) / 2;
+        ButtonManager.positionButton(folderButton, folderX, referenceY);
+        ButtonManager.positionButton(settingsButton, settingsX, referenceY);
 
-        final Path minecraftDir = this.client.runDirectory.toPath();
-        TextIconButtonWidget folderButton = this.addDrawableChild(TitleScreenButtons.createFolderButton(
-                buttonSize,
-                button -> {
-                    try {
-                        Util.getOperatingSystem().open(minecraftDir.toFile());
-                    } catch (Exception e) {
-                        EssentialsClient.LOGGER.error("Failed to open Minecraft directory", e);
-                    }
-                }, true
-        ));
-        folderButton.setPosition(folderX, y);
+        this.addDrawableChild(folderButton);
+        this.addDrawableChild(settingsButton);
+    }
 
-        TextIconButtonWidget settingsButton = this.addDrawableChild(TitleScreenButtons.createSettingsButton(
-                buttonSize,
-                button -> {
-                    if (this.client != null) {
-                        this.client.setScreen(new EssentialsConfigurationScreen(this, this.client.options));
-                    } else {
-                        EssentialsClient.LOGGER.error("Cannot open settings screen: client is null");
-                    }
-                }, true
-        ));
-        settingsButton.setPosition(settingsX, y);
+    private void tryOpenMinecraftDirectory() {
+        if (this.client != null) {
+            try {
+                Util.getOperatingSystem().open(this.client.runDirectory.toPath().toFile());
+            } catch (Exception e) {
+                EssentialsClient.LOGGER.error("Failed to open Minecraft directory", e);
+            }
+        } else {
+            EssentialsClient.LOGGER.error("Cannot open Minecraft directory: client is null");
+        }
+    }
+
+    private void tryOpenSettingsScreen() {
+        if (this.client != null) {
+            this.client.setScreen(new EssentialsConfigurationScreen(this, this.client.options));
+        } else {
+            EssentialsClient.LOGGER.error("Cannot open settings screen: client is null");
+        }
     }
 }

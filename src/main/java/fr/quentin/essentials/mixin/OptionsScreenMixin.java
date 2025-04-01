@@ -1,8 +1,8 @@
 package fr.quentin.essentials.mixin;
 
 import fr.quentin.essentials.EssentialsClient;
+import fr.quentin.essentials.gui.screen.ButtonManager;
 import fr.quentin.essentials.gui.screen.EssentialsConfigurationScreen;
-import fr.quentin.essentials.gui.screen.TitleScreenButtons;
 import fr.quentin.essentials.utils.Constants;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.OptionsScreen;
@@ -32,7 +32,17 @@ public abstract class OptionsScreenMixin extends Screen {
             return;
         }
 
-        Optional<ButtonWidget> lastButton = this.children()
+        Optional<ButtonWidget> lastButton = findCreditsButton();
+        if (lastButton.isPresent()) {
+            creditsButton = lastButton.get();
+            createAndPositionSettingsButton();
+        } else {
+            createFallbackSettingsButton();
+        }
+    }
+
+    private Optional<ButtonWidget> findCreditsButton() {
+        return this.children()
                 .stream()
                 .filter(widget -> widget instanceof ButtonWidget)
                 .map(widget -> (ButtonWidget) widget)
@@ -42,34 +52,30 @@ public abstract class OptionsScreenMixin extends Screen {
                     return key.equals(translatedText.getString());
                 })
                 .findFirst();
+    }
 
-        if (lastButton.isPresent()) {
-            creditsButton = lastButton.get();
-            int buttonSize = 20;
-            int padding = 4;
+    private void createAndPositionSettingsButton() {
+        int buttonSize = 20;
+        int padding = 4;
 
-            settingsButton = this.addDrawableChild(TitleScreenButtons.createSettingsButton(
-                    buttonSize,
-                    button -> {
-                        this.client.setScreen(new EssentialsConfigurationScreen(this, this.client.options));
-                    }, true
-            ));
+        settingsButton = ButtonManager.createSettingsButton(buttonSize, button -> tryOpenSettingsScreen(), true);
 
-            updateSettingsButtonPosition();
-        } else {
-            int buttonSize = 20;
-            int padding = 4;
-            int settingsX = this.width - buttonSize - padding;
-            int y = padding;
-            settingsButton = this.addDrawableChild(TitleScreenButtons.createSettingsButton(
-                    buttonSize,
-                    button -> {
-                        this.client.setScreen(new EssentialsConfigurationScreen(this, this.client.options));
-                    }, true
-            ));
-            settingsButton.setPosition(settingsX, y);
-            EssentialsClient.LOGGER.warn("Credits & Attribution button not found, using fallback positioning");
-        }
+        updateSettingsButtonPosition();
+        this.addDrawableChild(settingsButton);
+    }
+
+    private void createFallbackSettingsButton() {
+        int buttonSize = 20;
+        int padding = 4;
+        int settingsX = this.width - buttonSize - padding;
+        int y = padding;
+
+        settingsButton = ButtonManager.createSettingsButton(buttonSize, button -> tryOpenSettingsScreen(), true);
+
+        ButtonManager.positionButton(settingsButton, settingsX, y);
+        this.addDrawableChild(settingsButton);
+
+        EssentialsClient.LOGGER.warn("Credits & Attribution button not found, using fallback positioning");
     }
 
     @Inject(method = "refreshWidgetPositions", at = @At("RETURN"))
@@ -85,8 +91,15 @@ public abstract class OptionsScreenMixin extends Screen {
             int padding = 4;
             int settingsX = creditsButton.getX() + creditsButton.getWidth() + padding;
             int settingsY = creditsButton.getY() + (creditsButton.getHeight() - buttonSize) / 2;
+            ButtonManager.positionButton(settingsButton, settingsX, settingsY);
+        }
+    }
 
-            settingsButton.setPosition(settingsX, settingsY);
+    private void tryOpenSettingsScreen() {
+        if (this.client != null) {
+            this.client.setScreen(new EssentialsConfigurationScreen(this, this.client.options));
+        } else {
+            EssentialsClient.LOGGER.error("Cannot open settings screen: client is null");
         }
     }
 }
