@@ -5,6 +5,7 @@ import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import fr.quentin.essentials.EssentialsClient;
 import fr.quentin.essentials.config.ModConfig;
+import fr.quentin.essentials.toast.MarketRestockToast;
 import fr.quentin.essentials.utils.Constants;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
@@ -21,6 +22,26 @@ public class ModCommand {
         registerGammaCommand(dispatcher);
         registerCoordinatesCommand(dispatcher);
         registerDarknessCommand(dispatcher);
+        // Developer commands
+        registerToastCommand(dispatcher);
+    }
+
+    // Developer commands
+    public static void registerToastCommand(CommandDispatcher<FabricClientCommandSource> dispatcher) {
+        dispatcher.register(
+                ClientCommandManager.literal("toast")
+                        .then(ClientCommandManager.literal("restock")
+                                .executes(ModCommand::executeMarketRestockToast))
+        );
+    }
+
+    public static int executeMarketRestockToast(CommandContext<FabricClientCommandSource> context) {
+        MarketRestockToast.show(
+                context.getSource().getClient().getToastManager(),
+                MarketRestockToast.Type.MARKET_RESTOCK,
+                Text.translatable("notification.essentials.market_restock.title"),
+                Text.translatable("notification.essentials.market_restock.description"));
+        return 1;
     }
 
     private static void registerDarknessCommand(CommandDispatcher<FabricClientCommandSource> dispatcher) {

@@ -1,7 +1,7 @@
 package fr.quentin.essentials.notification;
 
 import fr.quentin.essentials.config.ModConfig;
-import fr.quentin.essentials.toast.ModSystemToast;
+import fr.quentin.essentials.toast.MarketRestockToast;
 import fr.quentin.essentials.utils.Constants;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -45,10 +45,10 @@ public class MarketRestockNotifier {
     private static void sendNotification() {
         if (Constants.client == null || Constants.client.player == null) return;
 
-        Constants.client.getToastManager().add(new ModSystemToast(
-                ModSystemToast.Type.MARKET_RESTOCK,
+        Constants.client.getToastManager().add(new MarketRestockToast(
+                MarketRestockToast.Type.MARKET_RESTOCK,
                 Text.translatable("notification.essentials.market_restock.title"),
-                Text.translatable("notification.essentials.market_restock.description")
-        ));
+                Text.translatable("notification.essentials.market_restock.description"),
+                false));
     }
 }

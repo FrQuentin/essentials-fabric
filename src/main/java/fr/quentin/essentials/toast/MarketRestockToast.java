@@ -19,11 +19,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 @Environment(EnvType.CLIENT)
-public class ModSystemToast implements Toast {
+public class MarketRestockToast implements Toast {
     private static final Identifier TEXTURE = Identifier.of(Essentials.MOD_ID, "toast/market_restock");
-    private static final int MIN_WIDTH = 200;
     private static final int LINE_HEIGHT = 12;
-    private static final int PADDING_Y = 10;
     private static final int TEXT_X = 26;
     private static final int TITLE_Y = 7;
     private static final int DESCRIPTION_Y_OFFSET = (TITLE_Y * 3) - 3;
@@ -33,10 +31,10 @@ public class ModSystemToast implements Toast {
     private long startTime;
     private boolean justUpdated;
     private final int width;
-    private boolean hidden;
+    private final boolean hidden;
     private Toast.Visibility visibility = Toast.Visibility.HIDE;
 
-    public ModSystemToast(Type type, Text title, @Nullable Text description) {
+    public MarketRestockToast(Type type, Text title, @Nullable Text description, boolean hidden) {
         this(
                 type,
                 title,
@@ -46,22 +44,16 @@ public class ModSystemToast implements Toast {
                         30 + Math.max(
                                 Constants.client.textRenderer.getWidth(title), description == null ? 0 : Constants.client.textRenderer.getWidth(description)
                         )
-                )
+                ), hidden
         );
     }
 
-    public static ModSystemToast create(Type type, Text title, Text description) {
-        TextRenderer textRenderer = Constants.client.textRenderer;
-        List<OrderedText> list = textRenderer.wrapLines(description, 200);
-        int i = Math.max(200, list.stream().mapToInt(textRenderer::getWidth).max().orElse(200));
-        return new ModSystemToast(type, title, list, i + 30);
-    }
-
-    private ModSystemToast(Type type, Text title, List<OrderedText> lines, int width) {
+    private MarketRestockToast(Type type, Text title, List<OrderedText> lines, int width, boolean hidden) {
         this.type = type;
         this.title = title;
         this.lines = lines;
         this.width = width;
+        this.hidden = hidden;
     }
 
     private static ImmutableList<OrderedText> getTextAsList(@Nullable Text text) {
@@ -70,16 +62,12 @@ public class ModSystemToast implements Toast {
 
     @Override
     public int getWidth() {
-        return this.width;
+        return this.width + 4;
     }
 
     @Override
     public int getHeight() {
-        return 20 + Math.max(this.lines.size(), 1) * LINE_HEIGHT;
-    }
-
-    public void hide() {
-        this.hidden = true;
+        return 21 + Math.max(this.lines.size(), 1) * LINE_HEIGHT;
     }
 
     @Override
@@ -125,11 +113,11 @@ public class ModSystemToast implements Toast {
     }
 
     public static void add(ToastManager manager, Type type, Text title, @Nullable Text description) {
-        manager.add(new ModSystemToast(type, title, description));
+        manager.add(new MarketRestockToast(type, title, description, false));
     }
 
     public static void show(ToastManager manager, Type type, Text title, @Nullable Text description) {
-        ModSystemToast systemToast = manager.getToast(ModSystemToast.class, type);
+        MarketRestockToast systemToast = manager.getToast(MarketRestockToast.class, type);
         if (systemToast == null) {
             add(manager, type, title, description);
         } else {
@@ -137,24 +125,13 @@ public class ModSystemToast implements Toast {
         }
     }
 
-    public static void hide(ToastManager manager, Type type) {
-        ModSystemToast systemToast = manager.getToast(ModSystemToast.class, type);
-        if (systemToast != null) {
-            systemToast.hide();
-        }
-    }
-
     @Environment(EnvType.CLIENT)
     public static class Type {
-        public static final Type MARKET_RESTOCK = new Type(6450L);
+        public static final Type MARKET_RESTOCK = new Type(4500L);
         final long displayDuration;
 
         public Type(long displayDuration) {
             this.displayDuration = displayDuration;
-        }
-
-        public Type() {
-            this(5000L);
         }
     }
 }
