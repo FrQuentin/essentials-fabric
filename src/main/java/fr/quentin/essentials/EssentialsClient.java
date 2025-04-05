@@ -3,22 +3,32 @@ package fr.quentin.essentials;
 import fr.quentin.essentials.command.ModCommand;
 import fr.quentin.essentials.config.ModConfig;
 import fr.quentin.essentials.input.KeyInputHandler;
+import fr.quentin.essentials.input.InputPollCallback;
+import fr.quentin.essentials.input.CharInputCallback;
+import fr.quentin.essentials.input.KeyPressCallback;
 import fr.quentin.essentials.notification.MarketRestockNotifier;
 import fr.quentin.essentials.option.ModKeyBinding;
 import fr.quentin.essentials.gui.screen.CoordinatesOverlay;
 import fr.quentin.essentials.utils.Constants;
 import fr.quentin.essentials.utils.DarknessEffectHandler;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.HudLayerRegistrationCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.IdentifiedLayer;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
+import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Environment(EnvType.CLIENT)
 public class EssentialsClient implements ClientModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger(Essentials.MOD_NAME);
+    private long eventCounter;
+    private long lastKeyPressTime;
 
     @Override
     public void onInitializeClient() {
@@ -39,6 +49,28 @@ public class EssentialsClient implements ClientModInitializer {
                     Identifier.of(Essentials.MOD_ID, "coordinates_overlay"),
                     (context, tickCounter) -> CoordinatesOverlay.render(context)
             );
+        });
+
+        InputPollCallback.EVENT.register(() -> this.eventCounter++);
+
+        KeyPressCallback.EVENT.register((window, key, scancode, action, modifiers) -> {
+            if (action != GLFW.GLFW_PRESS || Constants.client.currentScreen != null || key == GLFW.GLFW_KEY_ENTER)
+                return ActionResult.PASS;
+
+            if (Constants.client.options.chatKey.matchesKey(key, scancode) || Constants.client.options.commandKey.matchesKey(key, scancode)) {
+                this.lastKeyPressTime = this.eventCounter;
+            } else {
+                this.lastKeyPressTime = -1L;
+            }
+            return ActionResult.PASS;
+        });
+
+        CharInputCallback.EVENT.register((window, codepoint, modifiers) -> {
+            if (this.lastKeyPressTime == -1 || this.eventCounter - this.lastKeyPressTime > 5)
+                return ActionResult.PASS;
+
+            this.lastKeyPressTime = -1;
+            return ActionResult.FAIL;
         });
     }
 

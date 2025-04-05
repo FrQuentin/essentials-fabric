@@ -10,7 +10,8 @@
 		"HandledScreenMixin",
 		"EntryListWidgetMixin",
 		"GameMenuScreenMixin",
-		"OptionsScreenMixin"
+		"OptionsScreenMixin",
+		"KeyboardMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
