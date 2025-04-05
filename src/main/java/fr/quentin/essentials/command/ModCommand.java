@@ -31,11 +31,11 @@ public class ModCommand {
         dispatcher.register(
                 ClientCommandManager.literal("toast")
                         .then(ClientCommandManager.literal("restock")
-                                .executes(ModCommand::executeMarketRestockToast))
+                                .executes(ModCommand::executeRestockToastCommand))
         );
     }
 
-    public static int executeMarketRestockToast(CommandContext<FabricClientCommandSource> context) {
+    public static int executeRestockToastCommand(CommandContext<FabricClientCommandSource> context) {
         MarketRestockToast.show(
                 context.getSource().getClient().getToastManager(),
                 MarketRestockToast.Type.MARKET_RESTOCK,

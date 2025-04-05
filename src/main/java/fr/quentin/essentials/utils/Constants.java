@@ -26,14 +26,26 @@ public final class Constants {
     public static final int BASE_PADDING = BUTTON_SIZE + 14;
 
     // Screen Dimensions (Fallbacks)
-    public static final int FALLBACK_BUTTON_Y_OFFSET = 48 + 72 + 12; // Offset Y pour le positionnement de secours
-    public static final int FALLBACK_FOLDER_X_OFFSET = 104; // Offset X pour le bouton "Folder"
+    public static final int FALLBACK_BUTTON_Y_OFFSET = 48 + 72 + 12;
+    public static final int FALLBACK_FOLDER_X_OFFSET = 104;
 
     // Error messages
     public static final String ERROR_CLIENT_NULL = "Cannot perform action: client is null";
     public static final String ERROR_OPEN_DIRECTORY = "Failed to open Minecraft directory";
     public static final String WARN_ACCESSIBILITY_BUTTON_MISSING = "Accessibility button not found, using fallback positioning";
     public static final String WARN_CREDITS_BUTTON_MISSING = "Credits & Attribution button not found, using fallback positioning";
+
+    // ShulkerPreviewScreen Constants
+    public static final int SHULKER_BACKGROUND_WIDTH = 176;
+    public static final int SHULKER_BACKGROUND_HEIGHT = 78;
+    public static final int SHULKER_INVENTORY_START_X = 8;
+    public static final int SHULKER_INVENTORY_START_Y = 18;
+    public static final int SHULKER_TITLE_POS_X = 8;
+    public static final int SHULKER_TITLE_POS_Y = 6;
+    public static final int SHULKER_TITLE_COLOR = 0x404040;
+    public static final int SHULKER_SLOTS_PER_ROW = 9;
+    public static final int SHULKER_SLOT_SIZE = 18;
+    public static final int SHULKER_ROWS = 3;
 
     private Constants() {
         throw new UnsupportedOperationException("Cannot instantiate utility class.");

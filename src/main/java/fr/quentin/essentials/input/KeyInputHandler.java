@@ -8,7 +8,6 @@ import fr.quentin.essentials.option.ModKeyBinding;
 import fr.quentin.essentials.utils.Constants;
 import fr.quentin.essentials.utils.ShulkerColorManager;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 
@@ -19,7 +18,7 @@ public class KeyInputHandler {
             handleConfigurationKey();
             handleCoordinatesKey();
             handleZoomKey();
-            handleShulkerKey(client);
+            handleShulkerKey();
         });
     }
 
@@ -69,12 +68,12 @@ public class KeyInputHandler {
         }
     }
 
-    private static void handleShulkerKey(MinecraftClient client) {
-        if (client != null && client.player != null) {
-            ItemStack stack = client.player.getMainHandStack();
+    private static void handleShulkerKey() {
+        if (Constants.client != null && Constants.client.player != null) {
+            ItemStack stack = Constants.client.player.getMainHandStack();
             while (ModKeyBinding.shulkerKey.wasPressed()) {
                 if (ShulkerColorManager.getColorForShulker(stack.getItem()) != null) {
-                    client.setScreen(new ShulkerPreviewScreen(stack, null));
+                    Constants.client.setScreen(new ShulkerPreviewScreen(stack, null));
                 }
             }
         }
