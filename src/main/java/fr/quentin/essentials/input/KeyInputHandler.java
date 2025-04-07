@@ -3,6 +3,7 @@ package fr.quentin.essentials.input;
 import fr.quentin.essentials.command.ModCommand;
 import fr.quentin.essentials.config.ModConfig;
 import fr.quentin.essentials.gui.screen.EssentialsConfigurationScreen;
+import fr.quentin.essentials.gui.screen.NavigatorScreen;
 import fr.quentin.essentials.gui.screen.ShulkerPreviewScreen;
 import fr.quentin.essentials.option.ModKeyBinding;
 import fr.quentin.essentials.utils.Constants;
@@ -19,7 +20,16 @@ public class KeyInputHandler {
             handleCoordinatesKey();
             handleZoomKey();
             handleShulkerKey();
+            handleNavigatorKey();
         });
+    }
+
+    private static void handleNavigatorKey() {
+        if (ModKeyBinding.navigatorKey.wasPressed()) {
+            if (Constants.client != null && Constants.client.currentScreen == null) {
+                Constants.client.setScreen(new NavigatorScreen(Text.translatable("screen.essentials.navigator.title")));
+            }
+        }
     }
 
     private static void handleGammaKey() {

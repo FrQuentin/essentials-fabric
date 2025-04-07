@@ -11,6 +11,7 @@ public class ModKeyBinding {
     public static KeyBinding coordinatesKey;
     public static KeyBinding zoomKey;
     public static KeyBinding shulkerKey;
+    public static KeyBinding navigatorKey;
 
     public static void register() {
         configurationKey = KeyBindingHelper.registerKeyBinding(
@@ -51,6 +52,14 @@ public class ModKeyBinding {
                         InputUtil.Type.KEYSYM,
                         GLFW.GLFW_KEY_V,
                         "key.categories.essentials"
+                )
+        );
+        navigatorKey = KeyBindingHelper.registerKeyBinding(
+                new KeyBinding(
+                        "key.essentials.navigator",
+                        InputUtil.Type.KEYSYM,
+                        GLFW.GLFW_KEY_UNKNOWN,
+                        "key.categories.essentials.origin_realms"
                 )
         );
     }
