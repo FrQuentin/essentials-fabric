@@ -1,6 +1,7 @@
 package fr.quentin.essentials.gui.widget;
 
 import fr.quentin.essentials.Essentials;
+import fr.quentin.essentials.utils.Constants;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.tooltip.Tooltip;
@@ -10,6 +11,8 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+
+import java.util.Objects;
 
 public class GreenBalloonsWidget extends ClickableWidget {
     private static final Identifier TEXTURE = Identifier.of(Essentials.MOD_ID, "textures/gui/sprites/widget/green_balloons.png");
@@ -46,6 +49,9 @@ public class GreenBalloonsWidget extends ClickableWidget {
 
     @Override
     public void onClick(double mouseX, double mouseY) {
-            System.out.println("Green Balloons button clicked!");
+        if (Constants.client != null && Constants.client.player != null) {
+            Objects.requireNonNull(Constants.client.getNetworkHandler()).sendChatCommand("balloon green-balloon");
+            Constants.client.setScreen(null);
+        }
     }
 }
