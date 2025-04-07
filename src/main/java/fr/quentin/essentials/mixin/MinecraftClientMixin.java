@@ -12,10 +12,9 @@ public class MinecraftClientMixin {
     @Inject(
             method = "tick",
             at = @At(value = "INVOKE",
-                    target = "Lcom/mojang/blaze3d/platform/GLX;pollEvents()V",
+                    target = "Lorg/lwjgl/glfw/GLFW;glfwPollEvents()V",
                     shift = At.Shift.AFTER,
-                    ordinal = 0
-            )
+                    remap = false)
     )
     private void injectGlfwPoll(CallbackInfo ci) {
         InputPollCallback.EVENT.invoker().onPoll();
