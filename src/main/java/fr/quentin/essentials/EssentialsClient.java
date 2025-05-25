@@ -6,7 +6,6 @@ import fr.quentin.essentials.input.KeyInputHandler;
 import fr.quentin.essentials.input.InputPollCallback;
 import fr.quentin.essentials.input.CharInputCallback;
 import fr.quentin.essentials.input.KeyPressCallback;
-import fr.quentin.essentials.notification.MarketRestockNotifier;
 import fr.quentin.essentials.option.ModKeyBinding;
 import fr.quentin.essentials.gui.screen.CoordinatesOverlay;
 import fr.quentin.essentials.utils.Constants;
@@ -37,7 +36,6 @@ public class EssentialsClient implements ClientModInitializer {
         ModKeyBinding.register();
         KeyInputHandler.register();
         DarknessEffectHandler.register();
-        MarketRestockNotifier.register();
 
         ClientLifecycleEvents.CLIENT_STARTED.register(client -> {
             applyGammaFromConfig();
