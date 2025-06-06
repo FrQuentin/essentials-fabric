@@ -3,9 +3,9 @@ package fr.quentin.essentials.gui.screen;
 import fr.quentin.essentials.Essentials;
 import fr.quentin.essentials.utils.Constants;
 import fr.quentin.essentials.utils.ShulkerColorManager;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -58,7 +58,7 @@ public class ShulkerPreviewScreen extends Screen {
     @Override
     public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta) {
         this.renderDarkening(context);
-        context.drawTexture(RenderLayer::getGuiTextured, TEXTURE, this.x, this.y, 0.0F, 0.0F,
+        context.drawTexture(RenderPipelines.GUI_TEXTURED, TEXTURE, this.x, this.y, 0.0F, 0.0F,
                 Constants.SHULKER_BACKGROUND_WIDTH, Constants.SHULKER_BACKGROUND_HEIGHT, 256, 256, this.color.getRGB());
         context.drawText(textRenderer, this.title, this.x + Constants.SHULKER_TITLE_POS_X, this.y + Constants.SHULKER_TITLE_POS_Y, Constants.SHULKER_TITLE_COLOR, false);
     }

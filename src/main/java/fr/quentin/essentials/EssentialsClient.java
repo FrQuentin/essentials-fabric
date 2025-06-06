@@ -15,8 +15,8 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
-import net.fabricmc.fabric.api.client.rendering.v1.HudLayerRegistrationCallback;
-import net.fabricmc.fabric.api.client.rendering.v1.IdentifiedLayer;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
+import net.fabricmc.fabric.impl.client.rendering.hud.HudElementRegistryImpl;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
@@ -41,13 +41,11 @@ public class EssentialsClient implements ClientModInitializer {
             applyGammaFromConfig();
         });
 
-        HudLayerRegistrationCallback.EVENT.register(layeredDrawer -> {
-            layeredDrawer.attachLayerBefore(
-                    IdentifiedLayer.CHAT,
-                    Identifier.of(Essentials.MOD_ID, "coordinates_overlay"),
-                    (context, tickCounter) -> CoordinatesOverlay.render(context)
-            );
-        });
+        HudElementRegistryImpl.attachElementBefore(
+                VanillaHudElements.CHAT,
+                Identifier.of(Essentials.MOD_ID, "coordinates_overlay"),
+                (context, tickCounter) -> CoordinatesOverlay.render(context)
+        );
 
         InputPollCallback.EVENT.register(() -> this.eventCounter++);
 
