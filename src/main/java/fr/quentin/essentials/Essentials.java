@@ -1,5 +1,6 @@
 package fr.quentin.essentials;
 
+import fr.quentin.essentials.utils.ResourcePackManager;
 import net.fabricmc.api.ModInitializer;
 
 public class Essentials implements ModInitializer {
@@ -8,6 +9,7 @@ public class Essentials implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-
+		ResourcePackManager.cleanupOldResourcePacks();
+		ResourcePackManager.copyResourcePacks();
 	}
 }
