@@ -83,6 +83,17 @@ public class EssentialsConfigurationScreen extends GameOptionsScreen {
                             config.darknessEffectEnabled = value;
                             ModConfig.save();
                         }
+                ),
+                new SimpleOption<>(
+                        "screen.essentials.option.death_coords",
+                        value -> Tooltip.of(Text.translatable("tooltip.essentials.death_coords.description")),
+                        (text, value) -> value ? Text.translatable("screen.essentials.button.on") : Text.translatable("screen.essentials.button.off"),
+                        SimpleOption.BOOLEAN,
+                        config.deathCoordsEnabled,
+                        value -> {
+                            config.deathCoordsEnabled = value;
+                            ModConfig.save();
+                        }
                 )
         };
     }

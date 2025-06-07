@@ -23,6 +23,7 @@ public class ModConfig {
         public boolean zoomEnabled = false;
         public boolean zoomOverlayEnabled = true;
         public boolean darknessEffectEnabled = false;
+        public boolean deathCoordsEnabled = false;
     }
 
     public static void load() {
@@ -115,6 +116,15 @@ public class ModConfig {
 
     public static void setDarknessEffectEnabled(boolean enabled) {
         configData.darknessEffectEnabled = enabled;
+        save();
+    }
+
+    public static boolean isDeathCoordsEnabled() {
+        return configData.deathCoordsEnabled;
+    }
+
+    public static void setDeathCoordsEnabled(boolean enabled) {
+        configData.deathCoordsEnabled = enabled;
         save();
     }
 }
