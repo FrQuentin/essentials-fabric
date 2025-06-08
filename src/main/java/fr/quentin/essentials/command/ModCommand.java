@@ -54,9 +54,9 @@ public class ModCommand {
         boolean newState = ModConfig.isCoordinatesEnabled();
         ModConfig.setCoordinatesEnabled(newState);
         if (newState) {
-            context.getSource().sendFeedback(Text.translatable("command.essentials.coordinates.toggled_on"));
-        } else {
             context.getSource().sendFeedback(Text.translatable("command.essentials.coordinates.toggled_off"));
+        } else {
+            context.getSource().sendFeedback(Text.translatable("command.essentials.coordinates.toggled_on"));
         }
         return 1;
     }
