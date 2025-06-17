@@ -21,7 +21,7 @@
   "screen.essentials.button.configuration": "Open Configuration",
   "screen.essentials.button.open_folder": "Open .minecraft Folder",
   "screen.essentials.option.darkness_effect": "Darkness Effect",
-  "screen.essentials.option.death_coords": "Death coordinates",
+  "screen.essentials.option.death_coords": "Death Coordinates",
   "tooltip.essentials.gamma.description": "Enable/disable gamma for better visibility",
   "tooltip.essentials.coordinates.description": "Enable/disable player coordinates display",
   "tooltip.essentials.zoom_percentage.description": "Show current zoom level percentage",
