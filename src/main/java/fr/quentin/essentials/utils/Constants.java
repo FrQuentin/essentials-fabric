@@ -42,7 +42,6 @@ public final class Constants {
     public static final int SHULKER_INVENTORY_START_Y = 18;
     public static final int SHULKER_TITLE_POS_X = 8;
     public static final int SHULKER_TITLE_POS_Y = 6;
-    public static final int SHULKER_TITLE_COLOR = 0xFF404040;
     public static final int SHULKER_SLOTS_PER_ROW = 9;
     public static final int SHULKER_SLOT_SIZE = 18;
     public static final int SHULKER_ROWS = 3;
