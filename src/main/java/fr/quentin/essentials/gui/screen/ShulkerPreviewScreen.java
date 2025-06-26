@@ -47,7 +47,7 @@ public class ShulkerPreviewScreen extends Screen {
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         super.render(context, mouseX, mouseY, delta);
         this.renderBackground(context, mouseX, mouseY, delta);
-        this.renderItems(context, this.inventory, this.x + Constants.SHULKER_INVENTORY_START_X, this.y + Constants.SHULKER_INVENTORY_START_Y);
+        this.renderItems(context, this.inventory, this.x + Constants.SHULKER_INVENTORY_START_X, this.y + Constants.SHULKER_INVENTORY_START_Y, mouseX, mouseY);
 
         int selectedSlot = getSlot(mouseX, mouseY);
         if (selectedSlot >= 0 && selectedSlot < this.inventory.size() && !this.inventory.get(selectedSlot).isOf(Items.AIR)) {
@@ -72,14 +72,24 @@ public class ShulkerPreviewScreen extends Screen {
         }
     }
 
-    private void renderItems(DrawContext context, List<ItemStack> inventory, int startX, int startY) {
+    private void renderItems(DrawContext context, List<ItemStack> inventory, int startX, int startY, int mouseX, int mouseY) {
         int x = startX;
         int y = startY;
 
+        int hoveredSlot = getSlot(mouseX, mouseY);
+
         for (int i = 0; i < inventory.size(); i++) {
             ItemStack item = inventory.get(i);
-            context.drawItem(item, x, y);
-            context.drawStackOverlay(textRenderer, item, x, y);
+
+            int slotX = x;
+            int slotY = y;
+
+            if (i == hoveredSlot) {
+                context.fill(slotX, slotY, slotX + Constants.SHULKER_SLOT_SIZE - 1, slotY + Constants.SHULKER_SLOT_SIZE - 1, 0x80FFFFFF);
+            }
+
+            context.drawItem(item, slotX, slotY);
+            context.drawStackOverlay(textRenderer, item, slotX, slotY);
 
             if ((i + 1) % Constants.SHULKER_SLOTS_PER_ROW == 0) {
                 x = startX;
