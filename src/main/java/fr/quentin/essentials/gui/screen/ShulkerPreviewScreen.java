@@ -1,7 +1,6 @@
 package fr.quentin.essentials.gui.screen;
 
 import fr.quentin.essentials.Essentials;
-import fr.quentin.essentials.utils.ColorUtils;
 import fr.quentin.essentials.utils.Constants;
 import fr.quentin.essentials.utils.ShulkerColorManager;
 import net.minecraft.client.gl.RenderPipelines;
@@ -61,12 +60,11 @@ public class ShulkerPreviewScreen extends Screen {
         this.renderDarkening(context);
         context.drawTexture(RenderPipelines.GUI_TEXTURED, TEXTURE, this.x, this.y, 0.0F, 0.0F,
                 Constants.SHULKER_BACKGROUND_WIDTH, Constants.SHULKER_BACKGROUND_HEIGHT, 256, 256, this.color.getRGB());
-        context.drawText(textRenderer, this.title,
-                this.x + Constants.SHULKER_TITLE_POS_X,
-                this.y + Constants.SHULKER_TITLE_POS_Y,
-                ColorUtils.getContrastingTextColor(this.color),
-                false
-        );
+
+        int textColor = ShulkerColorManager.getTextColor(this.inventory.isEmpty() ? Items.SHULKER_BOX : this.inventory.get(0).getItem());
+
+        context.drawText(textRenderer, this.title, this.x + Constants.SHULKER_TITLE_POS_X, this.y + Constants.SHULKER_TITLE_POS_Y, textColor, false);
+
     }
 
     @Override
