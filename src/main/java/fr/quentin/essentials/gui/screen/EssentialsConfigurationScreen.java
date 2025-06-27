@@ -54,7 +54,7 @@ public class EssentialsConfigurationScreen extends GameOptionsScreen {
                 new SimpleOption<>(
                         "screen.essentials.option.coordinates",
                         value -> Tooltip.of(Text.translatable("tooltip.essentials.coordinates.description")),
-                        (text, value) -> value ? Text.translatable("screen.essentials.button.off") : Text.translatable("screen.essentials.button.on"),
+                        (text, value) -> value ? Text.translatable("screen.essentials.button.on") : Text.translatable("screen.essentials.button.off"),
                         SimpleOption.BOOLEAN,
                         config.coordinatesEnabled,
                         value -> {
