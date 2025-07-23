@@ -18,7 +18,7 @@ public class CoordinatesOverlay {
     private static final int TEXT_COLOR = 0xFFFFFFFF;
     private static final int PADDING_TOP = 5;
     private static final int PADDING_LEFT = 8;
-    private static final int PADDING_BOTTOM = 7;
+    private static final int PADDING_BOTTOM = 10;
     private static final int PADDING_RIGHT = 8;
     private static final int INITIAL_POSITION_X = 5;
     private static final int INITIAL_POSITION_Y = 5;
@@ -61,35 +61,28 @@ public class CoordinatesOverlay {
                 String.format("%.2f", playerPos.x),
                 String.format("%.2f", playerPos.y),
                 String.format("%.2f", playerPos.z));
+
+        String dimensionId = Constants.client.world.getRegistryKey().getValue().toString();
+        String dimensionTranslationKey = "dimension." + dimensionId.replace(":", ".");
+        Text dimensionText = Text.translatable("overlay.essentials.dimension", Text.translatable(dimensionTranslationKey));
+
         TextRenderer textRenderer = Constants.client.textRenderer;
 
         int coordinatesWidth = textRenderer.getWidth(coordinatesText);
+        int dimensionWidth = textRenderer.getWidth(dimensionText);
         int biomeWidth = textRenderer.getWidth(cachedBiomeText);
-        int maxWidth = Math.max(coordinatesWidth, biomeWidth);
+        int maxWidth = Math.max(coordinatesWidth, Math.max(dimensionWidth, biomeWidth));
         int boxWidth = maxWidth + PADDING_LEFT + PADDING_RIGHT;
-        int boxHeight = (9 * 2) + PADDING_TOP + PADDING_BOTTOM;
+        int boxHeight = (9 * 3) + PADDING_TOP + PADDING_BOTTOM;
         int boxX = INITIAL_POSITION_X;
         int boxY = INITIAL_POSITION_Y;
 
         drawRoundedRectWithFade(context, boxX, boxY, boxX + boxWidth, boxY + boxHeight, alpha);
 
         int fadedTextColor = applyAlpha(TEXT_COLOR, alpha);
-        context.drawText(
-                textRenderer,
-                coordinatesText,
-                boxX + PADDING_LEFT,
-                boxY + PADDING_TOP,
-                fadedTextColor,
-                false
-        );
-        context.drawText(
-                textRenderer,
-                cachedBiomeText,
-                boxX + PADDING_LEFT,
-                boxY + PADDING_TOP + 12,
-                fadedTextColor,
-                false
-        );
+        context.drawText(textRenderer, coordinatesText, boxX + PADDING_LEFT, boxY + PADDING_TOP, fadedTextColor, false);
+        context.drawText(textRenderer, dimensionText, boxX + PADDING_LEFT, boxY + PADDING_TOP + 12, fadedTextColor, false);
+        context.drawText(textRenderer, cachedBiomeText, boxX + PADDING_LEFT, boxY + PADDING_TOP + 24, fadedTextColor, false);
     }
 
     private static int applyAlpha(int color, float alpha) {

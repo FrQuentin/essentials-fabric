@@ -29,6 +29,7 @@
   "tooltip.essentials.death_coords.description": "Enable/disable the coordinates of your death location in the chat",
   "overlay.essentials.coordinates_xyz": "X: %s, Y: %s, Z: %s",
   "overlay.essentials.biome_id": "Biome: %s",
+  "overlay.essentials.dimension": "Dimension: %s",
   "message.essentials.zoom.level": "Zoom: %s%%",
   "message.essentials.chat.death_coords": "You died at coordinates: ",
   "key.categories.essentials": "Essentials",
@@ -36,5 +37,8 @@
   "key.essentials.gamma": "Toggle Gamma",
   "key.essentials.coordinates": "Toggle Coordinates",
   "key.essentials.zoom": "Zoom",
-  "key.essentials.shulker": "Shulker Preview"
+  "key.essentials.shulker": "Shulker Preview",
+  "dimension.minecraft.overworld": "Overworld",
+  "dimension.minecraft.the_nether": "Nether",
+  "dimension.minecraft.the_end": "The End"
 }
