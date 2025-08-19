@@ -47,15 +47,11 @@ public class ShulkerColorManager {
             Map.entry(Items.BROWN_SHULKER_BOX, 0xFFFFFFFF)
     );
 
-    public static Color getColor(Item item) {
-        return SHULKER_COLORS.getOrDefault(item, new Color(160, 160, 160));
-    }
-
     public static int getTextColor(Item item) {
         return SHULKER_TEXT_COLORS.getOrDefault(item, 0xFFFFFFFF);
     }
 
     public static Color getColorForShulker(Item item) {
-        return getColor(item);
+        return SHULKER_COLORS.get(item);
     }
 }

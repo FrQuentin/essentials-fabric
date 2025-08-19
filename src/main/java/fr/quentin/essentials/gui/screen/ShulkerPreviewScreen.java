@@ -1,6 +1,7 @@
 package fr.quentin.essentials.gui.screen;
 
 import fr.quentin.essentials.Essentials;
+import fr.quentin.essentials.EssentialsClient;
 import fr.quentin.essentials.utils.Constants;
 import fr.quentin.essentials.utils.ShulkerColorManager;
 import net.minecraft.client.gl.RenderPipelines;
@@ -29,11 +30,43 @@ public class ShulkerPreviewScreen extends Screen {
 
     public ShulkerPreviewScreen(ItemStack itemStack, Screen parent) {
         super(Text.literal("Preview Shulker"));
-        this.color = ShulkerColorManager.SHULKER_COLORS.get(itemStack.getItem());
-        this.title = itemStack.getName();
-        this.inventory = itemStack.get(DataComponentTypes.CONTAINER) != null
-                ? Objects.requireNonNull(itemStack.get(DataComponentTypes.CONTAINER)).stream().toList()
-                : Collections.emptyList();
+
+        Color tempColor;
+        Text tempTitle;
+        List<ItemStack> tempInventory;
+
+        try {
+            if (itemStack == null || itemStack.isEmpty()) {
+                tempColor = Color.WHITE;
+                tempTitle = Text.literal("Shulker Box");
+                tempInventory = Collections.emptyList();
+            } else {
+                Color shulkerColor = ShulkerColorManager.SHULKER_COLORS.get(itemStack.getItem());
+                tempColor = shulkerColor != null ? shulkerColor : Color.WHITE;
+
+                tempTitle = itemStack.getName() != null ? itemStack.getName() : Text.literal("Shulker Box");
+
+                try {
+                    var container = itemStack.get(DataComponentTypes.CONTAINER);
+                    tempInventory = container != null ?
+                            Objects.requireNonNull(container).stream().toList() :
+                            Collections.emptyList();
+                } catch (Exception e) {
+                    tempInventory = Collections.emptyList();
+                }
+            }
+
+        } catch (Exception e) {
+            EssentialsClient.LOGGER.error("Critical error in the ShulkerPreviewScreen constructor");
+
+            tempColor = Color.WHITE;
+            tempTitle = Text.literal("Error");
+            tempInventory = Collections.emptyList();
+        }
+
+        this.color = tempColor;
+        this.title = tempTitle;
+        this.inventory = tempInventory;
         this.parent = parent;
     }
 
@@ -45,26 +78,53 @@ public class ShulkerPreviewScreen extends Screen {
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        super.render(context, mouseX, mouseY, delta);
-        this.renderBackground(context, mouseX, mouseY, delta);
-        this.renderItems(context, this.inventory, this.x + Constants.SHULKER_INVENTORY_START_X, this.y + Constants.SHULKER_INVENTORY_START_Y, mouseX, mouseY);
+        try {
+            super.render(context, mouseX, mouseY, delta);
+            this.renderBackground(context, mouseX, mouseY, delta);
 
-        int selectedSlot = getSlot(mouseX, mouseY);
-        if (selectedSlot >= 0 && selectedSlot < this.inventory.size() && !this.inventory.get(selectedSlot).isOf(Items.AIR)) {
-            this.renderTooltip(context, this.inventory.get(selectedSlot), mouseX, mouseY);
+            if (this.inventory != null && !this.inventory.isEmpty()) {
+                this.renderItems(context, this.inventory,
+                        this.x + Constants.SHULKER_INVENTORY_START_X,
+                        this.y + Constants.SHULKER_INVENTORY_START_Y, mouseX, mouseY);
+            }
+
+            int selectedSlot = getSlot(mouseX, mouseY);
+            if (this.inventory != null && selectedSlot >= 0 && selectedSlot < this.inventory.size()) {
+                ItemStack selectedStack = this.inventory.get(selectedSlot);
+                if (selectedStack != null && !selectedStack.isOf(Items.AIR)) {
+                    this.renderTooltip(context, selectedStack, mouseX, mouseY);
+                }
+            }
+
+        } catch (Exception e) {
+            this.close();
         }
     }
 
     @Override
     public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta) {
-        this.renderDarkening(context);
-        context.drawTexture(RenderPipelines.GUI_TEXTURED, TEXTURE, this.x, this.y, 0.0F, 0.0F,
-                Constants.SHULKER_BACKGROUND_WIDTH, Constants.SHULKER_BACKGROUND_HEIGHT, 256, 256, this.color.getRGB());
+        try {
+            this.renderDarkening(context);
 
-        int textColor = ShulkerColorManager.getTextColor(this.inventory.isEmpty() ? Items.SHULKER_BOX : this.inventory.get(0).getItem());
+            if (this.color != null) {
+                context.drawTexture(RenderPipelines.GUI_TEXTURED, TEXTURE, this.x, this.y, 0.0F, 0.0F,
+                        Constants.SHULKER_BACKGROUND_WIDTH, Constants.SHULKER_BACKGROUND_HEIGHT, 256, 256,
+                        this.color.getRGB());
+            }
 
-        context.drawText(textRenderer, this.title, this.x + Constants.SHULKER_TITLE_POS_X, this.y + Constants.SHULKER_TITLE_POS_Y, textColor, false);
+            if (this.title != null && textRenderer != null) {
+                int textColor = ShulkerColorManager.getTextColor(
+                        this.inventory != null && !this.inventory.isEmpty() ?
+                                this.inventory.getFirst().getItem() : Items.SHULKER_BOX
+                );
+                context.drawText(textRenderer, this.title,
+                        this.x + Constants.SHULKER_TITLE_POS_X,
+                        this.y + Constants.SHULKER_TITLE_POS_Y, textColor, false);
+            }
 
+        } catch (Exception ignored) {
+
+        }
     }
 
     @Override

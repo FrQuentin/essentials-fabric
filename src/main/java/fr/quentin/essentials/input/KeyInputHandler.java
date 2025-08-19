@@ -1,5 +1,6 @@
 package fr.quentin.essentials.input;
 
+import fr.quentin.essentials.EssentialsClient;
 import fr.quentin.essentials.command.ModCommand;
 import fr.quentin.essentials.config.ModConfig;
 import fr.quentin.essentials.gui.screen.EssentialsConfigurationScreen;
@@ -69,14 +70,48 @@ public class KeyInputHandler {
     }
 
     private static void handleShulkerKey() {
-        if (Constants.client != null && Constants.client.player != null) {
-            ItemStack stack = Constants.client.player.getMainHandStack();
-            while (ModKeyBinding.shulkerKey.wasPressed()) {
-                if (ShulkerColorManager.getColorForShulker(stack.getItem()) != null) {
-                    Constants.client.setScreen(new ShulkerPreviewScreen(stack, null));
-                }
+        try {
+            if (Constants.client == null || Constants.client.player == null) {
+                return;
+            }
+            if (!ModKeyBinding.shulkerKey.wasPressed()) {
+                return;
+            }
+
+            ItemStack stack = getRelevantItemStack();
+
+            if (stack.isEmpty()) {
+                sendPlayerMessage("command.essentials.shulker.empty_hand");
+                return;
+            }
+            if (ShulkerColorManager.getColorForShulker(stack.getItem()) == null) {
+                sendPlayerMessage("command.essentials.shulker.not_a_shulker");
+                return;
+            }
+
+            try {
+                Constants.client.setScreen(new ShulkerPreviewScreen(stack, Constants.client.currentScreen));
+            } catch (Exception e) {
+                sendPlayerMessage("command.essentials.shulker.error_opening");
+            }
+
+        } catch (Exception e) {
+            EssentialsClient.LOGGER.error("Error in handleShulkerKey", e);
+        }
+    }
+
+    private static ItemStack getRelevantItemStack() {
+        if (Constants.client == null || Constants.client.player == null) {
+            return ItemStack.EMPTY;
+        }
+        if (Constants.client.currentScreen != null) {
+            ItemStack cursorStack = Constants.client.player.currentScreenHandler.getCursorStack();
+            if (!cursorStack.isEmpty()) {
+                return cursorStack;
             }
         }
+
+        return Constants.client.player.getMainHandStack();
     }
 
     private static void sendPlayerMessage(String translationKey) {
