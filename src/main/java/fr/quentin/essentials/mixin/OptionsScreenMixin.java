@@ -3,6 +3,7 @@ package fr.quentin.essentials.mixin;
 import fr.quentin.essentials.EssentialsClient;
 import fr.quentin.essentials.gui.screen.ButtonManager;
 import fr.quentin.essentials.gui.screen.EssentialsConfigurationScreen;
+import fr.quentin.essentials.gui.widget.ModTextIconButtonWidget;
 import fr.quentin.essentials.utils.Constants;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.OptionsScreen;
@@ -18,7 +19,7 @@ import java.util.Optional;
 
 @Mixin(OptionsScreen.class)
 public abstract class OptionsScreenMixin extends Screen {
-    private TextIconButtonWidget settingsButton;
+    private ModTextIconButtonWidget settingsButton;
     private ButtonWidget creditsButton;
 
     public OptionsScreenMixin(Text title) {

@@ -3,11 +3,11 @@ package fr.quentin.essentials.mixin;
 import fr.quentin.essentials.EssentialsClient;
 import fr.quentin.essentials.gui.screen.ButtonManager;
 import fr.quentin.essentials.gui.screen.EssentialsConfigurationScreen;
+import fr.quentin.essentials.gui.widget.ModTextIconButtonWidget;
 import fr.quentin.essentials.utils.Constants;
 import net.minecraft.client.gui.screen.GameMenuScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.TextIconButtonWidget;
 import net.minecraft.text.Text;
 import net.minecraft.util.Util;
 import org.spongepowered.asm.mixin.Mixin;
@@ -40,7 +40,7 @@ public abstract class GameMenuScreenMixin extends Screen {
     }
 
     private void createAndPositionButtons(int referenceY, int folderX, int settingsX) {
-        TextIconButtonWidget folderButton = ButtonManager.createFolderButton(
+        ModTextIconButtonWidget folderButton = ButtonManager.createFolderButton(
                 Constants.BUTTON_SIZE,
                 button -> {
                     try {
@@ -52,7 +52,7 @@ public abstract class GameMenuScreenMixin extends Screen {
                     }
                 }, true
         );
-        TextIconButtonWidget settingsButton = ButtonManager.createSettingsButton(
+        ModTextIconButtonWidget settingsButton = ButtonManager.createSettingsButton(
                 Constants.BUTTON_SIZE,
                 button -> {
                     if (this.client != null) {
