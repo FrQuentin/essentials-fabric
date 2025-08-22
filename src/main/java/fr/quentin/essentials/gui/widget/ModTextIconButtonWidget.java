@@ -41,7 +41,6 @@ public abstract class ModTextIconButtonWidget extends ModButtonWidget {
         private final ModButtonWidget.PressAction onPress;
         private final boolean hideText;
         private int width = 150;
-        private int height = 20;
         @Nullable
         private Identifier texture;
         private int textureWidth;
@@ -60,12 +59,6 @@ public abstract class ModTextIconButtonWidget extends ModButtonWidget {
             return this;
         }
 
-        public ModTextIconButtonWidget.Builder dimension(int width, int height) {
-            this.width = width;
-            this.height = height;
-            return this;
-        }
-
         public ModTextIconButtonWidget.Builder texture(Identifier texture, int width, int height) {
             this.texture = texture;
             this.textureWidth = width;
@@ -73,21 +66,17 @@ public abstract class ModTextIconButtonWidget extends ModButtonWidget {
             return this;
         }
 
-        public ModTextIconButtonWidget.Builder narration(ModButtonWidget.NarrationSupplier narrationSupplier) {
-            this.narrationSupplier = narrationSupplier;
-            return this;
-        }
-
         public ModTextIconButtonWidget build() {
             if (this.texture == null) {
                 throw new IllegalStateException("Sprite not set");
             } else {
+                int height = 20;
                 return this.hideText
                         ? new IconOnly(
-                        this.width, this.height, this.text, this.textureWidth, this.textureHeight, this.texture, this.onPress, this.narrationSupplier
+                        this.width, height, this.text, this.textureWidth, this.textureHeight, this.texture, this.onPress, this.narrationSupplier
                 )
                         : new WithText(
-                        this.width, this.height, this.text, this.textureWidth, this.textureHeight, this.texture, this.onPress, this.narrationSupplier
+                        this.width, height, this.text, this.textureWidth, this.textureHeight, this.texture, this.onPress, this.narrationSupplier
                 );
             }
         }

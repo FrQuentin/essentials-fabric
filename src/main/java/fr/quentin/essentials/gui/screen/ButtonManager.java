@@ -11,10 +11,10 @@ import net.minecraft.util.Identifier;
 @Environment(EnvType.CLIENT)
 public class ButtonManager {
     public static ModTextIconButtonWidget createSettingsButton(int width, ModButtonWidget.PressAction onPress, boolean hideText) {
-        Text text = Text.translatable("screen.essentials.button.configuration");
+        Text text = Text.translatable("screen.essentials.button.settings");
         return ModTextIconButtonWidget.builder(text, onPress, hideText)
                 .width(width)
-                .texture(Identifier.of(Essentials.MOD_ID, "icon/configuration"), 15, 15)
+                .texture(Identifier.of(Essentials.MOD_ID, "icon/settings"), 15, 15)
                 .build();
     }
     public static ModTextIconButtonWidget createFolderButton(int width, ModButtonWidget.PressAction onPress, boolean hideText) {

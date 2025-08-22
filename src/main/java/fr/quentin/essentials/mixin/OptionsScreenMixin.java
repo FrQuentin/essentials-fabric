@@ -2,13 +2,12 @@ package fr.quentin.essentials.mixin;
 
 import fr.quentin.essentials.EssentialsClient;
 import fr.quentin.essentials.gui.screen.ButtonManager;
-import fr.quentin.essentials.gui.screen.EssentialsConfigurationScreen;
+import fr.quentin.essentials.gui.screen.EssentialsSettingsScreen;
 import fr.quentin.essentials.gui.widget.ModTextIconButtonWidget;
 import fr.quentin.essentials.utils.Constants;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.OptionsScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.TextIconButtonWidget;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -48,7 +47,7 @@ public abstract class OptionsScreenMixin extends Screen {
             creditsButton = lastButton.get();
             settingsButton = this.addDrawableChild(ButtonManager.createSettingsButton(
                     Constants.BUTTON_SIZE,
-                    button -> this.client.setScreen(new EssentialsConfigurationScreen(this, this.client.options)),
+                    button -> this.client.setScreen(new EssentialsSettingsScreen(this, this.client.options)),
                     true
             ));
             updateSettingsButtonPosition();
@@ -59,7 +58,7 @@ public abstract class OptionsScreenMixin extends Screen {
 
             settingsButton = this.addDrawableChild(ButtonManager.createSettingsButton(
                     Constants.BUTTON_SIZE,
-                    button -> this.client.setScreen(new EssentialsConfigurationScreen(this, this.client.options)),
+                    button -> this.client.setScreen(new EssentialsSettingsScreen(this, this.client.options)),
                     true
             ));
             ButtonManager.positionButton(settingsButton, settingsX, y);

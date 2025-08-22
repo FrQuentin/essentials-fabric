@@ -3,7 +3,7 @@ package fr.quentin.essentials.input;
 import fr.quentin.essentials.EssentialsClient;
 import fr.quentin.essentials.command.ModCommand;
 import fr.quentin.essentials.config.ModConfig;
-import fr.quentin.essentials.gui.screen.EssentialsConfigurationScreen;
+import fr.quentin.essentials.gui.screen.EssentialsSettingsScreen;
 import fr.quentin.essentials.gui.screen.ShulkerPreviewScreen;
 import fr.quentin.essentials.option.ModKeyBinding;
 import fr.quentin.essentials.utils.Constants;
@@ -41,9 +41,9 @@ public class KeyInputHandler {
     }
 
     private static void handleConfigurationKey() {
-        if (ModKeyBinding.configurationKey.wasPressed()) {
+        if (ModKeyBinding.settingsKey.wasPressed()) {
             if (Constants.client != null && Constants.client.currentScreen == null) {
-                Constants.client.setScreen(new EssentialsConfigurationScreen(null, Constants.client.options));
+                Constants.client.setScreen(new EssentialsSettingsScreen(null, Constants.client.options));
             }
         }
     }

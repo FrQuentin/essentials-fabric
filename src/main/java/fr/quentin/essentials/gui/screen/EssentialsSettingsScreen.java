@@ -14,11 +14,11 @@ import net.minecraft.client.option.SimpleOption;
 import net.minecraft.text.Text;
 
 @Environment(EnvType.CLIENT)
-public class EssentialsConfigurationScreen extends GameOptionsScreen {
-    private static final Text TITLE = Text.translatable("screen.essentials.configuration.title");
+public class EssentialsSettingsScreen extends GameOptionsScreen {
+    private static final Text TITLE = Text.translatable("screen.essentials.settings.title");
     private final ModConfig.ConfigData config;
 
-    public EssentialsConfigurationScreen(Screen parent, GameOptions gameOptions) {
+    public EssentialsSettingsScreen(Screen parent, GameOptions gameOptions) {
         super(parent, gameOptions, TITLE);
         this.config = ModConfig.getConfigData();
     }

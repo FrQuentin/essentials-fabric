@@ -17,7 +17,6 @@ import net.minecraft.util.math.ColorHelper;
 
 @Environment(EnvType.CLIENT)
 public abstract class ModPressableWidget extends ClickableWidget {
-    protected static final int field_43050 = 2;
     private static final ButtonTextures TEXTURES = new ButtonTextures(
             Identifier.of(Essentials.MOD_ID, "widget/button"), Identifier.of(Essentials.MOD_ID, "widget/button_disabled"), Identifier.of(Essentials.MOD_ID, "widget/button_highlighted")
     );

@@ -2,13 +2,12 @@ package fr.quentin.essentials.mixin;
 
 import fr.quentin.essentials.EssentialsClient;
 import fr.quentin.essentials.gui.screen.ButtonManager;
-import fr.quentin.essentials.gui.screen.EssentialsConfigurationScreen;
+import fr.quentin.essentials.gui.screen.EssentialsSettingsScreen;
 import fr.quentin.essentials.gui.widget.ModTextIconButtonWidget;
 import fr.quentin.essentials.utils.Constants;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.TextIconButtonWidget;
 import net.minecraft.text.Text;
 import net.minecraft.util.Util;
 import org.spongepowered.asm.mixin.Mixin;
@@ -69,7 +68,7 @@ public abstract class TitleScreenMixin extends Screen {
                 Constants.BUTTON_SIZE,
                 button -> {
                     if (this.client != null) {
-                        this.client.setScreen(new EssentialsConfigurationScreen(this, this.client.options));
+                        this.client.setScreen(new EssentialsSettingsScreen(this, this.client.options));
                     } else {
                         EssentialsClient.LOGGER.error(Constants.ERROR_CLIENT_NULL);
                     }
