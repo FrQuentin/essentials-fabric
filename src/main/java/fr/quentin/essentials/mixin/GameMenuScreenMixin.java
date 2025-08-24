@@ -31,7 +31,7 @@ public abstract class GameMenuScreenMixin extends Screen {
     @Inject(method = "init", at = @At("RETURN"))
     private void init(CallbackInfo info) {
         if (this.client == null) {
-            EssentialsClient.LOGGER.error(Constants.ERROR_CLIENT_NULL);
+            logClientNull();
             return;
         }
         createAndPositionButtonsTopRight();
@@ -57,7 +57,7 @@ public abstract class GameMenuScreenMixin extends Screen {
                     if (this.client != null) {
                         this.client.setScreen(new EssentialsSettingsScreen(this, this.client.options));
                     } else {
-                        EssentialsClient.LOGGER.error(Constants.ERROR_CLIENT_NULL);
+                        logClientNull();
                     }
                 }, true
         );
@@ -71,5 +71,9 @@ public abstract class GameMenuScreenMixin extends Screen {
 
         this.addDrawableChild(folderButton);
         this.addDrawableChild(settingsButton);
+    }
+
+    private void logClientNull() {
+        EssentialsClient.LOGGER.error(Constants.ERROR_CLIENT_NULL);
     }
 }

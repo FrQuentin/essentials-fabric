@@ -39,7 +39,7 @@ public abstract class TitleScreenMixin extends Screen {
                             EssentialsClient.LOGGER.error(Constants.ERROR_OPEN_DIRECTORY, e);
                         }
                     } else {
-                        EssentialsClient.LOGGER.error(Constants.ERROR_CLIENT_NULL);
+                        logClientNull();
                     }
                 }, true
         );
@@ -50,7 +50,7 @@ public abstract class TitleScreenMixin extends Screen {
                     if (this.client != null) {
                         this.client.setScreen(new EssentialsSettingsScreen(this, this.client.options));
                     } else {
-                        EssentialsClient.LOGGER.error(Constants.ERROR_CLIENT_NULL);
+                        logClientNull();
                     }
                 }, true
         );
@@ -64,5 +64,9 @@ public abstract class TitleScreenMixin extends Screen {
 
         this.addDrawableChild(folderButton);
         this.addDrawableChild(settingsButton);
+    }
+
+    private void logClientNull() {
+        EssentialsClient.LOGGER.error(Constants.ERROR_CLIENT_NULL);
     }
 }

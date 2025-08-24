@@ -27,7 +27,7 @@ public abstract class OptionsScreenMixin extends Screen {
     @Inject(method = "init", at = @At("RETURN"))
     private void init(CallbackInfo info) {
         if (this.client == null) {
-            EssentialsClient.LOGGER.error(Constants.ERROR_CLIENT_NULL);
+            logClientNull();
             return;
         }
 
@@ -48,12 +48,11 @@ public abstract class OptionsScreenMixin extends Screen {
                     if (this.client != null) {
                         this.client.setScreen(new EssentialsSettingsScreen(this, this.client.options));
                     } else {
-                        EssentialsClient.LOGGER.error(Constants.ERROR_CLIENT_NULL);
+                        logClientNull();
                     }
                 },
                 true
         ));
-
         updateSettingsButtonPositionTopRight();
     }
 
@@ -62,5 +61,9 @@ public abstract class OptionsScreenMixin extends Screen {
             int settingsX = this.width - Constants.BUTTON_SIZE - RIGHT_PADDING;
             ButtonManager.positionButton(settingsButton, settingsX, TOP_PADDING);
         }
+    }
+
+    private void logClientNull() {
+        EssentialsClient.LOGGER.error(Constants.ERROR_CLIENT_NULL);
     }
 }
