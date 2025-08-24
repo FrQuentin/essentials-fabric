@@ -17,6 +17,7 @@ public class ButtonManager {
                 .texture(Identifier.of(Essentials.MOD_ID, "icon/settings"), 15, 15)
                 .build();
     }
+
     public static ModTextIconButtonWidget createFolderButton(int width, ModButtonWidget.PressAction onPress, boolean hideText) {
         Text text = Text.translatable("screen.essentials.button.open_folder");
         return ModTextIconButtonWidget.builder(text, onPress, hideText)
@@ -27,5 +28,21 @@ public class ButtonManager {
 
     public static void positionButton(ModTextIconButtonWidget button, int x, int y) {
         button.setPosition(x, y);
+    }
+
+    public static void positionButtonTopRight(ModTextIconButtonWidget button, int screenWidth, int margin) {
+        int x = screenWidth - button.getWidth() - margin;
+        int y = margin;
+        button.setPosition(x, y);
+    }
+
+    public static void positionButtonsTopRight(ModTextIconButtonWidget[] buttons, int screenWidth, int margin, int spacing) {
+        int currentX = screenWidth - margin;
+
+        for (ModTextIconButtonWidget button : buttons) {
+            currentX -= button.getWidth();
+            button.setPosition(currentX, margin);
+            currentX -= spacing;
+        }
     }
 }

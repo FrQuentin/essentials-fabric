@@ -18,6 +18,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(GameMenuScreen.class)
 public abstract class GameMenuScreenMixin extends Screen {
+    private static final int TOP_PADDING = Constants.MEDIUM_PADDING;
+    private static final int RIGHT_PADDING = Constants.MEDIUM_PADDING;
+
     @Shadow
     private ButtonWidget exitButton;
 
@@ -27,19 +30,14 @@ public abstract class GameMenuScreenMixin extends Screen {
 
     @Inject(method = "init", at = @At("RETURN"))
     private void init(CallbackInfo info) {
-        if (this.client == null || exitButton == null) {
+        if (this.client == null) {
             EssentialsClient.LOGGER.error(Constants.ERROR_CLIENT_NULL);
             return;
         }
-
-        int folderX = exitButton.getX() + exitButton.getWidth() + Constants.LARGE_PADDING;
-        int settingsX = folderX + Constants.BUTTON_SIZE + Constants.SMALL_PADDING;
-        int referenceY = exitButton.getY() + (exitButton.getHeight() - Constants.BUTTON_SIZE) / 2;
-
-        createAndPositionButtons(referenceY, folderX, settingsX);
+        createAndPositionButtonsTopRight();
     }
 
-    private void createAndPositionButtons(int referenceY, int folderX, int settingsX) {
+    private void createAndPositionButtonsTopRight() {
         ModTextIconButtonWidget folderButton = ButtonManager.createFolderButton(
                 Constants.BUTTON_SIZE,
                 button -> {
@@ -52,6 +50,7 @@ public abstract class GameMenuScreenMixin extends Screen {
                     }
                 }, true
         );
+
         ModTextIconButtonWidget settingsButton = ButtonManager.createSettingsButton(
                 Constants.BUTTON_SIZE,
                 button -> {
@@ -63,8 +62,12 @@ public abstract class GameMenuScreenMixin extends Screen {
                 }, true
         );
 
-        ButtonManager.positionButton(folderButton, folderX, referenceY);
-        ButtonManager.positionButton(settingsButton, settingsX, referenceY);
+        ModTextIconButtonWidget[] buttons = {settingsButton, folderButton};
+        ButtonManager.positionButtonsTopRight(buttons, this.width, RIGHT_PADDING, Constants.SMALL_PADDING);
+
+        for (ModTextIconButtonWidget button : buttons) {
+            button.setY(TOP_PADDING);
+        }
 
         this.addDrawableChild(folderButton);
         this.addDrawableChild(settingsButton);

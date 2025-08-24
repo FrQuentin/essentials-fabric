@@ -7,19 +7,18 @@ import fr.quentin.essentials.gui.widget.ModTextIconButtonWidget;
 import fr.quentin.essentials.utils.Constants;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.OptionsScreen;
-import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.Optional;
-
 @Mixin(OptionsScreen.class)
 public abstract class OptionsScreenMixin extends Screen {
+    private static final int TOP_PADDING = Constants.MEDIUM_PADDING;
+    private static final int RIGHT_PADDING = Constants.MEDIUM_PADDING;
+
     private ModTextIconButtonWidget settingsButton;
-    private ButtonWidget creditsButton;
 
     public OptionsScreenMixin(Text title) {
         super(title);
@@ -32,53 +31,36 @@ public abstract class OptionsScreenMixin extends Screen {
             return;
         }
 
-        Optional<ButtonWidget> lastButton = this.children()
-                .stream()
-                .filter(widget -> widget instanceof ButtonWidget)
-                .map(widget -> (ButtonWidget) widget)
-                .filter(button -> {
-                    String key = button.getMessage().getString();
-                    Text translatedText = Text.translatable(Constants.CREDITS_TRANSLATION_KEY);
-                    return key.equals(translatedText.getString());
-                })
-                .findFirst();
-
-        if (lastButton.isPresent()) {
-            creditsButton = lastButton.get();
-            settingsButton = this.addDrawableChild(ButtonManager.createSettingsButton(
-                    Constants.BUTTON_SIZE,
-                    button -> this.client.setScreen(new EssentialsSettingsScreen(this, this.client.options)),
-                    true
-            ));
-            updateSettingsButtonPosition();
-        } else {
-            EssentialsClient.LOGGER.warn(Constants.WARN_CREDITS_BUTTON_MISSING);
-            int settingsX = this.width - Constants.BUTTON_SIZE - Constants.SMALL_PADDING;
-            int y = Constants.SMALL_PADDING;
-
-            settingsButton = this.addDrawableChild(ButtonManager.createSettingsButton(
-                    Constants.BUTTON_SIZE,
-                    button -> this.client.setScreen(new EssentialsSettingsScreen(this, this.client.options)),
-                    true
-            ));
-            ButtonManager.positionButton(settingsButton, settingsX, y);
-        }
+        createAndPositionSettingsButtonTopRight();
     }
 
     @Inject(method = "refreshWidgetPositions", at = @At("RETURN"))
     private void refreshWidgetPositions(CallbackInfo info) {
-        if (settingsButton != null && creditsButton != null) {
-            updateSettingsButtonPosition();
+        if (settingsButton != null) {
+            updateSettingsButtonPositionTopRight();
         }
     }
 
-    private void updateSettingsButtonPosition() {
-        if (creditsButton != null && settingsButton != null) {
-            int buttonSize = settingsButton.getWidth();
-            int padding = 4;
-            int settingsX = creditsButton.getX() + creditsButton.getWidth() + padding;
-            int settingsY = creditsButton.getY() + (creditsButton.getHeight() - buttonSize) / 2;
-            ButtonManager.positionButton(settingsButton, settingsX, settingsY);
+    private void createAndPositionSettingsButtonTopRight() {
+        settingsButton = this.addDrawableChild(ButtonManager.createSettingsButton(
+                Constants.BUTTON_SIZE,
+                button -> {
+                    if (this.client != null) {
+                        this.client.setScreen(new EssentialsSettingsScreen(this, this.client.options));
+                    } else {
+                        EssentialsClient.LOGGER.error(Constants.ERROR_CLIENT_NULL);
+                    }
+                },
+                true
+        ));
+
+        updateSettingsButtonPositionTopRight();
+    }
+
+    private void updateSettingsButtonPositionTopRight() {
+        if (settingsButton != null) {
+            int settingsX = this.width - Constants.BUTTON_SIZE - RIGHT_PADDING;
+            ButtonManager.positionButton(settingsButton, settingsX, TOP_PADDING);
         }
     }
 }
