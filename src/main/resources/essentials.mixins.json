@@ -12,7 +12,8 @@
 		"GameMenuScreenMixin",
 		"OptionsScreenMixin",
 		"KeyboardMixin",
-		"MapStateMixin"
+		"MapStateMixin",
+		"CameraMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
