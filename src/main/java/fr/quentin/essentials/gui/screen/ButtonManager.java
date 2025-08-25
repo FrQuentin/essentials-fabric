@@ -30,12 +30,6 @@ public class ButtonManager {
         button.setPosition(x, y);
     }
 
-    public static void positionButtonTopRight(ModTextIconButtonWidget button, int screenWidth, int margin) {
-        int x = screenWidth - button.getWidth() - margin;
-        int y = margin;
-        button.setPosition(x, y);
-    }
-
     public static void positionButtonsTopRight(ModTextIconButtonWidget[] buttons, int screenWidth, int margin, int spacing) {
         int currentX = screenWidth - margin;
 

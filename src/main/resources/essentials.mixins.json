@@ -11,7 +11,8 @@
 		"EntryListWidgetMixin",
 		"GameMenuScreenMixin",
 		"OptionsScreenMixin",
-		"KeyboardMixin"
+		"KeyboardMixin",
+		"MapStateMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

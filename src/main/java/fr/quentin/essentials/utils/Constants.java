@@ -32,6 +32,10 @@ public final class Constants {
     public static final int SHULKER_SLOT_SIZE = 18;
     public static final int SHULKER_ROWS = 3;
 
+    // MapDecorationUtils Constants
+    public static final float DEGREES_PER_ROTATION = 22.5f;
+    public static final int ROTATION_MASK = 15;
+
     private Constants() {
         throw new UnsupportedOperationException("Cannot instantiate utility class.");
     }
